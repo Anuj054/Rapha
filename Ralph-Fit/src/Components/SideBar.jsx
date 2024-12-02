@@ -11,12 +11,14 @@ const Sidebar = () => {
   const location = useLocation(); // Get the current path
 
   return (
-    <div className="h-screen w-60 bg-[#6f5c47] flex flex-col">
+    <div className=" h-full w-60 bg-[#6f5c47] flex flex-col">
       {/* Sidebar Header */}
-      <div className="text-[#e2f163] p-4 text-xl font-bold">RAPHA- FIT PILATES</div>
+      <div className="text-[#e2f163] p-4 text-xl font-bold">
+        RAPHA- FIT PILATES
+      </div>
 
       {/* Menu Items */}
-      <ul className="list-none p-4 pt-12 m-0 flex-1">
+      <ul className="list-none p-4 pt-12 m-0 flex-2">
         <Link
           to="/dashboard/usermanagement"
           style={{ textDecoration: "none" }}
@@ -24,10 +26,12 @@ const Sidebar = () => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/usermanagement" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/usermanagement"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
+            <div className=" p-2">
               <img src={userManagement} alt="User Management" />
             </div>
             <span>User Management</span>
@@ -44,7 +48,7 @@ const Sidebar = () => {
               location.pathname === "/dashboard/classes" ? "bg-[#45413c]" : ""
             }`}
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
+            <div className=" p-2">
               <img src={classschedule} alt="Classes Schedule" />
             </div>
             <span>Classes Schedule</span>
@@ -58,10 +62,12 @@ const Sidebar = () => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/attendance" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/attendance"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
+            <div className=" p-2">
               <img src={Attendence} alt="Attendance" />
             </div>
             <span>Attendance</span>
@@ -75,41 +81,59 @@ const Sidebar = () => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/subscriptions" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/subscriptions"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
+            <div className=" p-2">
               <img src={sub} alt="Subscriptions" />
             </div>
             <span>Subscriptions</span>
           </li>
         </Link>
       </ul>
+      <hr />
 
       {/* Footer Section */}
-      <div>
-        <ul className="list-none p-4 m-0">
-          <li
-            className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/notifications" ? "bg-[#45413c]" : ""
-            }`}
+      <div className="pt-3">
+        <ul className="list-none p-4 m-0 ">
+          <Link
+            to="/dashboard/notifications"
+            style={{ textDecoration: "none" }}
+            className="text-white"
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
-              <img src={notification} alt="Notifications" />
-            </div>
-            <span>Notifications</span>
-          </li>
-
-          <li
-            className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/settings" ? "bg-[#45413c]" : ""
-            }`}
+            <li
+              className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
+                location.pathname === "/dashboard/notifications"
+                  ? "bg-[#45413c]"
+                  : ""
+              }`}
+            >
+              <div className=" p-2">
+                <img src={notification} alt="Notifications" />
+              </div>
+              <span>Notifications</span>
+            </li>
+          </Link>
+          <Link
+            to="/dashboard/settings"
+            style={{ textDecoration: "none" }}
+            className="text-white"
           >
-            <div className="w-5 h-5 bg-gray-400 rounded-full mr-4">
-              <img src={settings} alt="Settings" />
-            </div>
-            <span>Settings</span>
-          </li>
+            <li
+              className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
+                location.pathname === "/dashboard/settings"
+                  ? "bg-[#45413c]"
+                  : ""
+              }`}
+            >
+              <div className=" p-2">
+                <img src={settings} alt="Settings" />
+              </div>
+              <span>Settings</span>
+            </li>
+          </Link>
         </ul>
       </div>
     </div>

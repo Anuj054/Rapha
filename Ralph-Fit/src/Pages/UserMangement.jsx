@@ -93,13 +93,13 @@ const UserManagement = () => {
   ];
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <Sidebar />
-      <div className="flex flex-col w-[160vh]">
+      <div className="flex-1 flex flex-col">
         {/* Navbar */}
-        <div className="navbar">
-          <Navbar />
-        </div>
+
+        <Navbar />
+
         <div className="p-5">
           <div className="flex justify-between mb-5">
             <input
@@ -136,7 +136,7 @@ const UserManagement = () => {
                   <td className="p-3">{user.number}</td>
                   <td className="p-3">{user.gender}</td>
                   <td className="p-3">
-                    <button className="bg-gray-300 px-4 py-2 rounded-md hover:bg-gray-400">
+                    <button className="bg-gray-100 px-4 py-2 border  rounded-full hover:bg-gray-400">
                       ⟩
                     </button>
                   </td>

@@ -24,27 +24,36 @@ const Attendance = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col">
         <NavBar />
         <div className="p-5 mt-12 mx-4 rounded-lg shadow-md bg-white text-gray-800">
-          <h2 className="text-2xl mb-5">User Attendance</h2>
+          <h2 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
+            User Attendance
+          </h2>
           <table className="w-full border-collapse text-center">
             <thead>
-              <tr>
-                <th className="px-4 py-2 border-b bg-gray-100 font-semibold">Name</th>
+              <tr className=" rounded-md shadow-md ">
+                <th className="px-4 py-2 border-bfont-semibold">Name</th>
                 {days.map((day, index) => (
-                  <th key={index} className="px-4 py-2 border-b bg-gray-100">{day}</th>
+                  <th key={index} className="px-4 py-2  ">
+                    {day}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {attendanceData.map((user, userIndex) => (
-                <tr key={userIndex}>
-                  <td className="px-4 py-2 border-b">{user.name}</td>
+                <tr key={userIndex} className=" p-3">
+                  <td className="px-4 py-2 shadow-md  rounded-md m-1 ">
+                    {user.name}
+                  </td>
                   {user.attendance.map((status, dayIndex) => (
-                    <td key={dayIndex} className="px-4 py-2 border-b">
+                    <td
+                      key={dayIndex}
+                      className="px-4 py-2 shadow-md rounded-md "
+                    >
                       {status === "" ? (
                         <select
                           className="px-2 py-1 text-sm border border-gray-300 rounded-md cursor-pointer bg-gray-50"
@@ -63,7 +72,9 @@ const Attendance = () => {
                       ) : (
                         <span
                           className={`font-semibold text-sm ${
-                            status === "Present" ? "text-green-500" : "text-red-500"
+                            status === "Present"
+                              ? "text-green-500"
+                              : "text-red-500"
                           }`}
                         >
                           {status}

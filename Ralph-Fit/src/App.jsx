@@ -6,6 +6,8 @@ import AddClass from "./Pages/AddClass";
 import Attendance from "./Pages/Attendence";
 import DashBoard from "./Pages/DashBoard";
 import Subscription from "./Pages/Subscription";
+import Settings from "./Pages/Settings";
+import Notification from "./Pages/Notification";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/dashboard/addclass" element={<AddClass />} />
         <Route path="/dashboard/attendence" element={<Attendance />} />
         <Route path="/dashboard/subscription" element={<Subscription />} />
+        <Route path="/dashboard/settings" element={<Settings />} />
+        <Route path="/dashboard/notifications" element={<Notification />} />
       </Routes>
     </Router>
   );

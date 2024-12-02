@@ -10,23 +10,23 @@ const Subscription = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex h-screen">
       <Sidebar />
-      <div className="main flex-1 p-10">
+      <div className="main flex-1 ">
         {/* Main Content */}
         <div className="navbar">
           <Navbar />
         </div>
-        <div className="membership-container">
+        <div className="membership-container p-5 justify-items-center">
           <h1 className="text-left text-xl text-gray-800 mb-5">Membership</h1>
           <form className="flex flex-col gap-4">
-            <div className="flex gap-5">
+            <div className="flex justify-between gap-5 ">
               <div className="flex flex-col">
                 <label className="text-sm text-gray-600 mb-1">User Name*</label>
                 <input
                   type="text"
                   placeholder="Enter user name"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
                 />
               </div>
 
@@ -35,24 +35,26 @@ const Subscription = () => {
                 <input
                   type="date"
                   placeholder="Start Date"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
                 />
               </div>
               <div className="flex flex-col">
                 <label className="text-sm text-gray-600 mb-1">End Date</label>
                 <input
                   type="date"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
                 />
               </div>
             </div>
-            <div className="flex gap-5">
+            <div className="flex  justify-between">
               <div className="flex flex-col">
-                <label className="text-sm text-gray-600 mb-1">Membership Name*</label>
+                <label className="text-sm text-gray-600 mb-1">
+                  Membership Name*
+                </label>
                 <input
                   type="text"
                   placeholder="Enter membership name"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
                 />
               </div>
 
@@ -61,45 +63,49 @@ const Subscription = () => {
                 <input
                   type="number"
                   placeholder="Enter number of sessions"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
                 />
               </div>
             </div>
+            <div className="flex gap-5 justify-between">
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Plan*</label>
+                <input
+                  type="text"
+                  placeholder="Enter plan details"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
+                />
+              </div>
 
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Plan*</label>
-              <input
-                type="text"
-                placeholder="Enter plan details"
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
-              />
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Diet*</label>
+                <input
+                  type="text"
+                  placeholder="Enter diet details"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
+                />
+              </div>
             </div>
+            <div className="flex  justify-between">
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">Trainer*</label>
+                <input
+                  type="text"
+                  placeholder="Enter trainer name"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto"
+                />
+              </div>
 
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Diet*</label>
-              <input
-                type="text"
-                placeholder="Enter diet details"
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Trainer*</label>
-              <input
-                type="text"
-                placeholder="Enter trainer name"
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-sm text-gray-600 mb-1">Training Slot</label>
-              <input
-                type="text"
-                placeholder="Enter training slot"
-                className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-72"
-              />
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1">
+                  Training Slot
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter training slot"
+                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-auto "
+                />
+              </div>
             </div>
 
             <div className="flex flex-col gap-3">
@@ -107,8 +113,8 @@ const Subscription = () => {
               <div className="flex gap-4">
                 <button
                   type="button"
-                  className={`px-4 py-2 text-sm border border-gray-300 rounded-md cursor-pointer ${
-                    paymentStatus === "Paid" ? "bg-purple-600 text-white" : "bg-white"
+                  className={`px-4 py-2 text-sm border bg-gray-100 border-gray-300 rounded-md cursor-pointer w-auto hover:bg-gray-200 ${
+                    paymentStatus === "Paid" ? " text-black" : "bg-white"
                   }`}
                   onClick={() => handlePaymentStatus("Paid")}
                 >
@@ -116,8 +122,8 @@ const Subscription = () => {
                 </button>
                 <button
                   type="button"
-                  className={`px-4 py-2 text-sm border border-gray-300 rounded-md cursor-pointer ${
-                    paymentStatus === "Unpaid" ? "bg-purple-600 text-white" : "bg-white"
+                  className={`px-4 py-2 text-sm border bg-gray-100 border-gray-300 rounded-md cursor-pointer w-auto hover:bg-gray-200 ${
+                    paymentStatus === "Unpaid" ? " text-black" : "bg-white"
                   }`}
                   onClick={() => handlePaymentStatus("Unpaid")}
                 >
@@ -129,7 +135,7 @@ const Subscription = () => {
             <div className="flex gap-4 justify-center mt-5">
               <button
                 type="button"
-                className="px-5 py-2 text-sm bg-white border border-gray-300 rounded-md"
+                className="px-5 py-2 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-100"
               >
                 Renew
               </button>
