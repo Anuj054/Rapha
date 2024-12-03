@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/SideBar";
-import Navbar from "../Components/NavBar";
+
 import AddUserPopup from "../Components/AddUser"; // Import the new component
 
 const UserManagement = () => {
@@ -21,9 +21,11 @@ const UserManagement = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("https://web-ai-gym-project.vercel.app/api/users/getAll");
+        const response = await fetch(
+          "https://web-ai-gym-project.vercel.app/api/users/getAll"
+        );
         if (!response.ok) {
-          throw new Error('Failed to fetch users');
+          throw new Error("Failed to fetch users");
         }
         const data = await response.json();
 
@@ -87,7 +89,9 @@ const UserManagement = () => {
           </div>
 
           {/* Show error message */}
-          {error && <div className="text-center text-red-500">Error: {error}</div>}
+          {error && (
+            <div className="text-center text-red-500">Error: {error}</div>
+          )}
 
           {/* Show loading state */}
           {loading ? (
@@ -141,19 +145,20 @@ const UserManagement = () => {
 
           {/* Pagination (if applicable) */}
           <div className="flex justify-center items-center mt-4">
-            {totalPages > 1 && Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i}
-                onClick={() => handlePageChange(i + 1)}
-                className={`mx-1 px-4 py-2 rounded-md ${
-                  currentPage === i + 1
-                    ? "bg-[#8920FE] text-white"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+            {totalPages > 1 &&
+              Array.from({ length: totalPages }, (_, i) => (
+                <button
+                  key={i}
+                  onClick={() => handlePageChange(i + 1)}
+                  className={`mx-1 px-4 py-2 rounded-md ${
+                    currentPage === i + 1
+                      ? "bg-[#8920FE] text-white"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
           </div>
 
           {/* Add User Popup */}
