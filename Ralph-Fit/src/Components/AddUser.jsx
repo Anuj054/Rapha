@@ -1,50 +1,232 @@
-import React from "react";
+import React, { useState } from "react";
 
-const AddUserPopup = ({ isOpen, onClose }) => {
+const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    class: "",
+    gender: "Female", // Default gender
+    email: "",
+    phone: "",
+    password: "",
+    package: "",
+    height: "",
+    weight: "",
+    age: "",
+    boneMass: "",
+    protein: "",
+    fatFreeMass: "",
+    skeletalMuscle: "",
+    subcutaneousFat: "",
+    bmi: "",
+    visceralFat: "",
+    bmr: "",
+    bodyWater: "",
+    bodyFat: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleAddAnother = () => {
+    if (typeof onSubmit === "function") {
+      onSubmit(formData);
+    } else {
+      console.error("onSubmit is not a function");
+    }
+
+    setFormData({
+      name: "",
+      class: "",
+      gender: "Female", // Reset to default gender
+      email: "",
+      phone: "",
+      password: "",
+      package: "",
+      height: "",
+      weight: "",
+      age: "",
+      boneMass: "",
+      protein: "",
+      fatFreeMass: "",
+      skeletalMuscle: "",
+      subcutaneousFat: "",
+      bmi: "",
+      visceralFat: "",
+      bmr: "",
+      bodyWater: "",
+      bodyFat: "",
+    });
+  };
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("https://web-ai-gym-project.vercel.app/api/users/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Success: Show success message or close popup
+        if (typeof onSubmit === "function") {
+          onSubmit(formData);
+        } else {
+          console.error("onSubmit is not a function");
+        }
+        onClose();
+        alert("User added successfully!");
+      } else {
+        // API error: Log and show the error message
+        console.error("API Error:", result.message);
+        setError(result.message || "Failed to add user");
+      }
+    } catch (error) {
+      // Network or other error
+      console.error("Network Error:", error);
+      setError("An error occurred while adding the user.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
-      <div className="bg-white w-[80%] max-w-xl rounded-lg p-6 shadow-lg relative">
-        <div className="flex justify-between items-center border-b pb-3">
-          <h2 className="text-2xl text-gray-800">Add New User</h2>
+      <div className="bg-white w-[80%] max-w-4xl rounded-lg p-6 shadow-lg relative">
+        <div className="flex justify-between items-center border-b pb-2">
+          <h2 className="text-xl font-semibold text-gray-800">Add User</h2>
           <button className="text-xl text-gray-800" onClick={onClose}>
             &times;
           </button>
         </div>
-        <div className="mt-5">
-          <h3 className="text-xl mb-4 text-gray-700">User Details</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div className="mt-4">
+          {/* Manually Section */}
+          <h3 className="text-lg font-medium mb-3 text-gray-700">Manually</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <input
+              name="name"
               type="text"
-              placeholder="First Name"
-              className="p-2 border border-gray-300 rounded-md"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
             />
             <input
+              name="class"
               type="text"
-              placeholder="Last Name"
-              className="p-2 border border-gray-300 rounded-md"
+              placeholder="Class"
+              value={formData.class}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
             />
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm bg-white"
+            >
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Other">Other</option>
+            </select>
             <input
+              name="email"
               type="email"
-              placeholder="Email Address"
-              className="p-2 border border-gray-300 rounded-md"
+              placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
             />
             <input
+              name="phone"
               type="text"
-              placeholder="Role"
-              className="p-2 border border-gray-300 rounded-md"
+              placeholder="Phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
+            />
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
+            />
+            <input
+              name="package"
+              type="text"
+              placeholder="Package"
+              value={formData.package}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
             />
           </div>
-          <div className="flex justify-between mt-4">
-            <button className="bg-white border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-md hover:bg-purple-600 hover:text-white">
-              Add Another
+
+          {/* Body Metrics Section */}
+          <h3 className="text-lg font-medium mb-3 text-gray-700">Body Metrics</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              "height",
+              "weight",
+              "age",
+              "boneMass",
+              "protein",
+              "fatFreeMass",
+              "skeletalMuscle",
+              "subcutaneousFat",
+              "bmi",
+              "visceralFat",
+              "bmr",
+              "bodyWater",
+              "bodyFat",
+            ].map((metric) => (
+              <input
+                key={metric}
+                name={metric}
+                type="number"
+                placeholder={metric
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
+                value={formData[metric]}
+                onChange={handleChange}
+                className="p-2 border border-gray-300 rounded-md text-sm"
+              />
+            ))}
+          </div>
+
+          {/* Error Message */}
+          {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-3 mt-4">
+            <button
+              className="flex items-center justify-center border-2 border-purple-600 text-purple-600 bg-white px-4 py-2 rounded-full hover:bg-purple-100 text-sm"
+              onClick={handleAddAnother}
+            >
+              <span className="mr-2">➕</span> Add Another
             </button>
             <button
-              className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-              onClick={onClose}
+              className={`${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-purple-600"
+              } text-white px-4 py-2 rounded-md hover:bg-purple-700 text-sm`}
+              onClick={handleSubmit}
+              disabled={loading}
             >
-              Add User
+              {loading ? "Loading..." : "Add User"}
             </button>
           </div>
         </div>
