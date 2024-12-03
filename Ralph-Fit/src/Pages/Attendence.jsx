@@ -32,60 +32,65 @@ const Attendance = () => {
           <h2 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
             User Attendance
           </h2>
-          <table className="w-full border-collapse text-center">
-            <thead>
-              <tr className=" rounded-md shadow-md ">
-                <th className="px-4 py-2 border-bfont-semibold">Name</th>
-                {days.map((day, index) => (
-                  <th key={index} className="px-4 py-2  ">
-                    {day}
-                  </th>
+          <div
+            className="grid gap-4"
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${days.length + 1}, 1fr)`,
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {/* Header Row */}
+            <div className="font-semibold  px-4 py-2 ">Name</div>
+            {days.map((day, index) => (
+              <div
+                key={index}
+                className="font-semibold border-b px-4 py-2 border-l-2 border-gray-100"
+              >
+                {day}
+              </div>
+            ))}
+
+            {/* Data Rows */}
+            {attendanceData.map((user, userIndex) => (
+              <React.Fragment key={userIndex}>
+                <div className="font-medium shadow-md rounded-md p-2">
+                  {user.name}
+                </div>
+                {user.attendance.map((status, dayIndex) => (
+                  <div key={dayIndex} className="shadow-md rounded-md p-2 ">
+                    {status === "" ? (
+                      <select
+                        className="px-2 py-1 text-sm border border-gray-300 rounded-md cursor-pointer bg-gray-50"
+                        onChange={(e) =>
+                          handleAttendanceChange(
+                            userIndex,
+                            dayIndex,
+                            e.target.value === "Present"
+                          )
+                        }
+                      >
+                        <option value="" hidden></option>
+                        <option value="Present">Present</option>
+                        <option value="Absent">Absent</option>
+                      </select>
+                    ) : (
+                      <span
+                        className={`font-semibold text-sm ${
+                          status === "Present"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {status}
+                      </span>
+                    )}
+                  </div>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {attendanceData.map((user, userIndex) => (
-                <tr key={userIndex} className=" p-3">
-                  <td className="px-4 py-2 shadow-md  rounded-md m-1 ">
-                    {user.name}
-                  </td>
-                  {user.attendance.map((status, dayIndex) => (
-                    <td
-                      key={dayIndex}
-                      className="px-4 py-2 shadow-md rounded-md "
-                    >
-                      {status === "" ? (
-                        <select
-                          className="px-2 py-1 text-sm border border-gray-300 rounded-md cursor-pointer bg-gray-50"
-                          onChange={(e) =>
-                            handleAttendanceChange(
-                              userIndex,
-                              dayIndex,
-                              e.target.value === "Present"
-                            )
-                          }
-                        >
-                          <option value="" hidden></option>
-                          <option value="Present">Present</option>
-                          <option value="Absent">Absent</option>
-                        </select>
-                      ) : (
-                        <span
-                          className={`font-semibold text-sm ${
-                            status === "Present"
-                              ? "text-green-500"
-                              : "text-red-500"
-                          }`}
-                        >
-                          {status}
-                        </span>
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
     </div>

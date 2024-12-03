@@ -21,18 +21,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center fixed inset-0 bg-gray-50">
+    <div className="flex items-center justify-center fixed inset-0 bg-gray-50 max-h-full">
       {/* Logo */}
       <div className="absolute top-8 left-8">
         <img src={logo} alt="Rapha-Fit Pilates Logo" className="h-8" />
       </div>
 
       {/* Background Illustration */}
-      <div className="absolute inset-0 w-auto h-auto">
+      <div className=" absolute inset-0 w-full h-[154%] items-baseline">
         <img
           src={loginbg}
           alt="Background"
-          className="w-full h-full object-cover hidden md:block"
+          className="w-full h-full object-contain hidden md:block"
         />
       </div>
 

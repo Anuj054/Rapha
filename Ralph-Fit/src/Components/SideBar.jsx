@@ -122,7 +122,7 @@ const Sidebar = () => {
             className="text-white"
           >
             <li
-              className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
+              className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c]  rounded-md ${
                 location.pathname === "/dashboard/settings"
                   ? "bg-[#45413c]"
                   : ""

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import Sidebar from "../Components/SideBar"; // Import Sidebar component
+import Sidebar from "../Components/SideBar";
 import Navbar from "../Components/NavBar";
+import AddUserPopup from "../Components/AddUser"; // Import the new component
+import icons from "../Assets/icons8-search.svg";
 
 const UserManagement = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const usersPerPage = 8;
 
   const togglePopup = () => {
     setIsPopupOpen(!isPopupOpen);
@@ -17,6 +21,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Female",
+      photo: "https://via.placeholder.com/50", // Placeholder image URL
     },
     {
       name: "Marvin McKinney",
@@ -25,6 +30,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Female",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Jane Cooper",
@@ -33,6 +39,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Female",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Cody Fisher",
@@ -41,6 +48,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Female",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Bessie Cooper",
@@ -49,6 +57,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Male",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Guy Hawkins",
@@ -57,6 +66,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Male",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Jerome Bell",
@@ -65,6 +75,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Male",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Savannah Nguyen",
@@ -73,6 +84,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Female",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Wade Warren",
@@ -81,6 +93,7 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Male",
+      photo: "https://via.placeholder.com/50",
     },
     {
       name: "Darrell Steward",
@@ -89,54 +102,72 @@ const UserManagement = () => {
       classType: "Cardio",
       number: "5783582826",
       gender: "Male",
+      photo: "https://via.placeholder.com/50",
     },
   ];
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        {/* Navbar */}
-
         <Navbar />
 
         <div className="p-5">
-          <div className="flex justify-between mb-5">
+          <div className="flex flex-col gap-2 justify-between mb-5">
+            <div className="flex justify-end">
+              <button
+                className="bg-[#8920FE] text-white px-4 py-2 rounded-md w-28"
+                onClick={togglePopup}
+              >
+                Add User
+              </button>
+            </div>
             <input
               type="text"
               placeholder="Search for a user by name or email"
-              className="p-2 border border-gray-300 rounded-md"
-            />
-            <button
-              className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-              onClick={togglePopup}
-            >
-              Add User
-            </button>
+              className="p-2  bg-gray-50 rounded-md"
+            ></input>
           </div>
           <table className="min-w-full border-collapse">
             <thead>
               <tr>
-                <th className="p-3 text-left">Name</th>
-                <th className="p-3 text-left">Email address</th>
-                <th className="p-3 text-left">Package</th>
-                <th className="p-3 text-left">Class</th>
-                <th className="p-3 text-left">Number</th>
-                <th className="p-3 text-left">Gender</th>
-                <th className="p-3 text-left">More Details</th>
+                <th className="p-3 text-sm text-left">Name</th>
+                <th className="p-3 text-sm text-left">Email address</th>
+                <th className="p-3 text-sm text-left">Package</th>
+                <th className="p-3 text-sm text-left">Class</th>
+                <th className="p-3 text-sm text-left">Number</th>
+                <th className="p-3 text-sm text-left">Gender</th>
+                <th className="p-3 text-sm text-left">More Details</th>
               </tr>
             </thead>
             <tbody>
-              {users.map((user, index) => (
+              {currentUsers.map((user, index) => (
                 <tr key={index}>
-                  <td className="p-3">{user.name}</td>
-                  <td className="p-3">{user.email}</td>
-                  <td className="p-3">{user.package}</td>
-                  <td className="p-3">{user.classType}</td>
-                  <td className="p-3">{user.number}</td>
-                  <td className="p-3">{user.gender}</td>
-                  <td className="p-3">
-                    <button className="bg-gray-100 px-4 py-2 border  rounded-full hover:bg-gray-400">
+                  <td className="p-3 flex flex-row">
+                    <img
+                      src={user.photo}
+                      alt={`${user.name}'s photo`}
+                      className="w-8 h-8 rounded-full"
+                    />
+
+                    <td className="p-3 pt-1 text-sm">{user.name}</td>
+                  </td>
+                  <td className="p-3 pt-1 text-sm">{user.email}</td>
+                  <td className="p-3 pt-1 text-sm">{user.package}</td>
+                  <td className="p-3 pt-1 text-sm">{user.classType}</td>
+                  <td className="p-3 pt-1 text-sm">{user.number}</td>
+                  <td className="p-3 pt-1 text-sm">{user.gender}</td>
+                  <td className="p-3 pt-1 text-sm">
+                    <button className="bg-gray-100 px-4 py-2 border rounded-full hover:bg-gray-400">
                       ⟩
                     </button>
                   </td>
@@ -144,58 +175,24 @@ const UserManagement = () => {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-center items-center mt-4">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i}
+                onClick={() => handlePageChange(i + 1)}
+                className={`mx-1 px-4 py-2 rounded-md ${
+                  currentPage === i + 1
+                    ? "bg-[#8920FE] text-white"
+                    : "bg-gray-200 text-gray-600"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
 
-          {isPopupOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
-              <div className="bg-white w-[80%] max-w-xl rounded-lg p-6 shadow-lg relative">
-                <div className="flex justify-between items-center border-b pb-3">
-                  <h2 className="text-2xl text-gray-800">Add New User</h2>
-                  <button
-                    className="text-xl text-gray-800"
-                    onClick={togglePopup}
-                  >
-                    &times;
-                  </button>
-                </div>
-                <div className="mt-5">
-                  <h3 className="text-xl mb-4 text-gray-700">User Details</h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="p-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      className="p-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      className="p-2 border border-gray-300 rounded-md"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Role"
-                      className="p-2 border border-gray-300 rounded-md"
-                    />
-                  </div>
-                  <div className="flex justify-between mt-4">
-                    <button className="bg-white border-2 border-purple-600 text-purple-600 px-4 py-2 rounded-md hover:bg-purple-600 hover:text-white">
-                      Add Another
-                    </button>
-                    <button
-                      className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700"
-                      onClick={togglePopup}
-                    >
-                      Add User
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Add User Popup */}
+          <AddUserPopup isOpen={isPopupOpen} onClose={togglePopup} />
         </div>
       </div>
     </div>

@@ -51,7 +51,14 @@ const Settings = () => {
                   type="button"
                   className="text-gray-500 text-sm focus:outline-none"
                 >
-                  Upload photo
+                  <label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                    ></input>
+                    Add Photo
+                  </label>
                 </button>
               </div>
             </div>
@@ -126,11 +133,11 @@ const Settings = () => {
                 />
               </div>
             </div>
-            <div className=" flex  justify-around">
+            <div className=" flex  items-stretch justify-around flex-row">
               <div className="mb-4">
                 <label
                   htmlFor="number"
-                  className="block text-sm font-medium text-gray-600"
+                  className="block text-sm  font-medium text-gray-600"
                 >
                   Number
                 </label>
@@ -145,7 +152,7 @@ const Settings = () => {
               </div>
               <div></div>
             </div>
-            <div className="mt-6  flex  justify-center">
+            <div className="mt-6  flex   justify-center">
               <button
                 type="submit"
                 className="w-[150px] bg-purple-700 text-white font-medium py-2 px-4 rounded-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 "
