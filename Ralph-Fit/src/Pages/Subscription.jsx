@@ -14,9 +14,7 @@ const Subscription = () => {
       <Sidebar />
       <div className="main flex-1 ">
         {/* Main Content */}
-        <div className="navbar">
-          <Navbar />
-        </div>
+
         <div className=" p-5  w-full pl-48 pr-48">
           <h1 className="text-left mt-5  justify-start text-xl text-gray-800 mb-5">
             Membership

@@ -3,14 +3,6 @@ import Sidebar from "../Components/SideBar"; // Assuming Sidebar is in the same 
 import NavBar from "../Components/NavBar"; // Assuming NavBar is in the same directory
 
 const Settings = () => {
-  const [formData, setFormData] = useState({
-    name: "Name",
-    email: "example@gmail.com",
-    address: "address",
-    gender: "",
-    number: "1234567890",
-  });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -32,8 +24,8 @@ const Settings = () => {
       <div className="flex-1 flex flex-col">
         {/* Settings Form */}
         <div className=" mt-6 ml-6">
-          <h1 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
-            General Settings
+          <h1 className="text-2xl font-semibold mt-4 text-start  mb-4 text-gray-600">
+            Profile
           </h1>
         </div>
         <div className="flex m-3 h-full  border rounded-lg justify-items-center ">
@@ -66,53 +58,17 @@ const Settings = () => {
                     htmlFor="name"
                     className="block text-sm  font-medium text-gray-500"
                   >
-                    Name
+                    First Name
                   </label>
                   <input
                     type="text"
                     name="name"
                     id="name"
-                    value={formData.name}
+                    placeholder=" Enter Your First Name"
                     onChange={handleChange}
                     className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
                   />
-                </div>
-
-                <div className="flex flex-col w-80 ">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm  font-medium text-gray-500"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-5 justify-between">
-                <div className="flex flex-col w-80 ">
-                  <label
-                    htmlFor="address"
-                    className="block text-sm  font-medium text-gray-500"
-                  >
-                    Address
-                  </label>
-                  <input
-                    type="text"
-                    name="address"
-                    id="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
-                  />
-                </div>
-
+                </div>{" "}
                 <div className="flex flex-col w-80 ">
                   <label
                     htmlFor="gender"
@@ -124,9 +80,8 @@ const Settings = () => {
                     type="text"
                     name="gender"
                     id="gender"
-                    value={formData.gender}
                     onChange={handleChange}
-                    placeholder="................."
+                    placeholder=""
                     className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
                   />
                 </div>
@@ -134,16 +89,30 @@ const Settings = () => {
               <div className="flex gap-5 justify-between">
                 <div className="flex flex-col w-80 ">
                   <label
+                    htmlFor="email"
+                    className="block text-sm  font-medium text-gray-500"
+                  >
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={handleChange}
+                    className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
+                  />
+                </div>
+                <div className="flex flex-col w-80 ">
+                  <label
                     htmlFor="number"
                     className="block text-sm  font-medium text-gray-500"
                   >
-                    Number
+                    Phone Number
                   </label>
                   <input
                     type="text"
                     name="number"
                     id="number"
-                    value={formData.number}
                     onChange={handleChange}
                     className="mt-1 p-2  text-gray-600 rounded-sm border shadow-sm bg-gray-100  sm:text-sm"
                   />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar"; // Import Sidebar component
-import NavBar from "../Components/NavBar";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import UpcomingClasses from "../Components/UpcomingClass";
@@ -22,9 +22,6 @@ const AddClass = () => {
       <Sidebar />
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <div>
-          <NavBar />
-        </div>
         <div className="flex justify-between p-5">
           <div className="w-2/5 flex flex-col">
             <h2 className="mb-2 text-lg font-semibold">Add Class</h2>

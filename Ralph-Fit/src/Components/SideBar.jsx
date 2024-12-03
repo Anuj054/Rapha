@@ -13,12 +13,9 @@ const Sidebar = () => {
   return (
     <div className=" h-full w-60 bg-[#6f5c47] flex flex-col">
       {/* Sidebar Header */}
-      <div className="text-[#e2f163] p-4 text-xl font-bold">
-        RAPHA- FIT PILATES
-      </div>
 
       {/* Menu Items */}
-      <ul className="list-none p-4 pt-12 m-0 flex-2">
+      <ul className="list-none p-4 m-0 flex-2">
         <Link
           to="/dashboard/usermanagement"
           style={{ textDecoration: "none" }}
