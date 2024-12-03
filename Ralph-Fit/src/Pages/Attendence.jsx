@@ -28,7 +28,7 @@ const Attendance = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <NavBar />
-        <div className="p-5 mt-12 mx-4 rounded-lg shadow-md bg-white text-gray-800">
+        <div className="p-5 mt-12 mx-4 rounded-xl shadow-lg bg-white text-gray-800">
           <h2 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
             User Attendance
           </h2>
