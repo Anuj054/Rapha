@@ -28,7 +28,7 @@ const Login = () => {
       </div>
 
       {/* Background Illustration */}
-      <div className=" absolute inset-0 w-full h-[154%] items-baseline">
+      <div className=" absolute inset-0 w-full h-[157%] items-baseline">
         <img
           src={loginbg}
           alt="Background"
