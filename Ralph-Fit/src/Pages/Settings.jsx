@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar"; // Assuming Sidebar is in the same directory
-import NavBar from "../Components/NavBar"; // Assuming NavBar is in the same directory
 
 const Settings = () => {
   const [formData, setFormData] = useState({

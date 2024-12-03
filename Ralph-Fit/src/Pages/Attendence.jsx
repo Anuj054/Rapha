@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
+
 
 const Attendance = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

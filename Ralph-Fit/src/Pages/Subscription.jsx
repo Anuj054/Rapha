@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar"; // Import Sidebar component
-import Navbar from "../Components/NavBar";
 
 const Subscription = () => {
   const [paymentStatus, setPaymentStatus] = useState("");

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
+
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import UpcomingClasses from "../Components/UpcomingClass";
@@ -18,6 +18,8 @@ const AddClass = () => {
 
   const [activeTab, setActiveTab] = useState("All");
   const [classes, setClasses] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
+  const itemsPerPage = 3; // Number of classes per page
 
   // Fetch classes from the API
   const fetchClasses = async () => {
@@ -41,36 +43,19 @@ const AddClass = () => {
     fetchClasses();
   }, []);
 
-  // Filter classes based on the active tab
-  const filteredClasses = () => {
-    const today = new Date();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(today.getDate() - today.getDay());
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
+  // Pagination logic
+  const totalPages = Math.ceil(classes.length / itemsPerPage);
+  const paginatedClasses = classes.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-    switch (activeTab) {
-      case "Today":
-        return classes.filter((cls) => {
-          const classDate = new Date(cls.date);
-          return classDate.toDateString() === today.toDateString();
-        });
-      case "Weekly":
-        return classes.filter((cls) => {
-          const classDate = new Date(cls.date);
-          return classDate >= startOfWeek && classDate <= endOfWeek;
-        });
-      case "Monthly":
-        return classes.filter((cls) => {
-          const classDate = new Date(cls.date);
-          return (
-            classDate.getMonth() === today.getMonth() &&
-            classDate.getFullYear() === today.getFullYear()
-          );
-        });
-      default:
-        return classes; // All classes
-    }
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
 
   const handleInputChange = (e) => {
@@ -122,6 +107,7 @@ const AddClass = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
         <div className="p-5 grid grid-cols-12 gap-5">
+          {/* Add Class Form */}
           <div className="col-span-8">
             <h2 className="mb-2 text-lg font-semibold">Add Class</h2>
             <div className="grid grid-cols-2 gap-4">
@@ -188,6 +174,7 @@ const AddClass = () => {
               Add Class
             </button>
           </div>
+
           {/* Calendar Section */}
           <div className="col-span-4 border border-gray-300 rounded-md shadow-md p-4">
             <h2 className="text-lg font-semibold mb-2">Calendar</h2>
@@ -198,11 +185,9 @@ const AddClass = () => {
               headerToolbar={false}
             />
           </div>
-
-          {/* Add Class Section */}
         </div>
 
-        {/* Upcoming Classes */}
+        {/* Upcoming Classes Section with Pagination */}
         <div className="p-5">
           <UpcomingClasses />
           <ul>

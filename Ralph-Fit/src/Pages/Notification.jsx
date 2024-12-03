@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "../Components/SideBar"; // Adjust the path based on your project structure
-import NavBar from "../Components/NavBar"; // Adjust the path based on your project structure
 
 const Notifications = () => {
   return (

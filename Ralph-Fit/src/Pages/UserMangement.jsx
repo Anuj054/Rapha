@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/SideBar";
-import Navbar from "../Components/NavBar";
+
 import AddUserPopup from "../Components/AddUser"; // Import the new component
 
 const UserManagement = () => {
