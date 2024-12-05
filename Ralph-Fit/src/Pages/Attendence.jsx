@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
+
 
 const Attendance = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -27,8 +27,7 @@ const Attendance = () => {
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <NavBar />
-        <div className="p-5 mt-12 mx-4 rounded-xl shadow-lg bg-white text-gray-800">
+        <div className="p-5 mt-12 mx-4 border rounded-lg shadow-sm bg-white text-gray-800">
           <h2 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
             User Attendance
           </h2>
@@ -42,7 +41,7 @@ const Attendance = () => {
             }}
           >
             {/* Header Row */}
-            <div className="font-semibold  px-4 py-2 ">Name</div>
+            <div className="font-semibold  px-4 py-2  ">Name</div>
             {days.map((day, index) => (
               <div
                 key={index}
@@ -55,14 +54,14 @@ const Attendance = () => {
             {/* Data Rows */}
             {attendanceData.map((user, userIndex) => (
               <React.Fragment key={userIndex}>
-                <div className="font-medium shadow-md rounded-md p-2">
+                <div className="shadow-md rounded-sm p-2 text-gray-400">
                   {user.name}
                 </div>
                 {user.attendance.map((status, dayIndex) => (
-                  <div key={dayIndex} className="shadow-md rounded-md p-2 ">
+                  <div key={dayIndex} className="shadow-md  rounded-sm p-2 ">
                     {status === "" ? (
                       <select
-                        className="px-2 py-1 text-sm border border-gray-300 rounded-md cursor-pointer bg-gray-50"
+                        className="px-2 py-1 text-sm border w-6 h-6 border-gray-300 rounded-md cursor-pointer bg-gray-50"
                         onChange={(e) =>
                           handleAttendanceChange(
                             userIndex,
@@ -77,9 +76,9 @@ const Attendance = () => {
                       </select>
                     ) : (
                       <span
-                        className={`font-semibold text-sm ${
+                        className={` text-sm ${
                           status === "Present"
-                            ? "text-green-500"
+                            ? "text-gray-400"
                             : "text-red-500"
                         }`}
                       >

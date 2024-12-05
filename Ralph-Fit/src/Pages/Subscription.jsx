@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../Components/SideBar"; // Import Sidebar component
-import Navbar from "../Components/NavBar";
 
 const Subscription = () => {
   const [paymentStatus, setPaymentStatus] = useState("");
@@ -14,11 +13,9 @@ const Subscription = () => {
       <Sidebar />
       <div className="main flex-1 ">
         {/* Main Content */}
-        <div className="navbar">
-          <Navbar />
-        </div>
+
         <div className=" p-5  w-full pl-48 pr-48">
-          <h1 className="text-left mt-5  justify-start text-xl text-gray-800 mb-5">
+          <h1 className="text-left mt-5  font-semibold justify-start text-2xl text-gray-600 mb-5">
             Membership
           </h1>
           <form className="flex flex-col gap-4 ">

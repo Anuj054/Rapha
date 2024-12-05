@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaFire, FaUserAlt, FaRunning } from "react-icons/fa"; // Icons for session, trainer, etc.
+import { FaFire, FaRunning } from "react-icons/fa"; // Icons for session, trainer, etc.
 
 const UpcomingClasses = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
+  const itemsPerPage = 3; // Number of classes per page
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -35,22 +37,38 @@ const UpcomingClasses = () => {
     return <p>Error fetching classes: {error}</p>;
   }
 
+  // Pagination logic
+  const totalPages = Math.ceil(classes.length / itemsPerPage);
+  const paginatedClasses = classes.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
   return (
     <div className="p-5">
       <h2 className="text-xl font-semibold mb-4">Upcoming Classes</h2>
-      {/* Horizontal scroll container */}
-      <div className="flex overflow-x-auto space-x-4 scrollbar-hide">
-        {classes.map((cls, index) => (
+      <div className="grid grid-cols-3 gap-4">
+        {paginatedClasses.map((cls, index) => (
           <div
             key={cls._id || index} // Use `_id` if available, fallback to index
-            className="flex-shrink-0 bg-white rounded-lg shadow-lg p-6 w-72 text-left border-2 border-gray-200"
+            className="bg-white rounded-lg shadow-lg p-6 border-2 border-gray-200"
           >
-            {/* Class name with color */}
-            <h3 className="text-lg text-purple-700 font-semibold mb-2">{cls.className}</h3>
+            {/* Class name */}
+            <h3 className="text-lg text-purple-700 font-semibold mb-2">
+              {cls.className}
+            </h3>
 
             {/* Date */}
             <div className="flex items-center text-gray-600 text-sm mb-2">
-              <span className="text-green-500 mr-2">🗓️</span> 
+              <span className="text-green-500 mr-2">🗓️</span>
               <span>{new Date(cls.date).toLocaleDateString()}</span>
             </div>
 
@@ -73,6 +91,27 @@ const UpcomingClasses = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-between mt-4">
+        <button
+          className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span className="text-sm text-gray-700">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

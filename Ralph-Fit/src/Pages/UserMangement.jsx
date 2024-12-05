@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/SideBar";
-import Navbar from "../Components/NavBar";
+
 import AddUserPopup from "../Components/AddUser"; // Import the new component
 
 const UserManagement = () => {
@@ -67,8 +67,6 @@ const UserManagement = () => {
     <div className="flex h-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <Navbar />
-
         <div className="p-5">
           <div className="flex flex-col gap-2 justify-between mb-5">
             <div className="flex justify-end">
