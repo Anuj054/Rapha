@@ -42,7 +42,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setFormData({
       name: "",
       class: "",
-      gender: "Female", // Reset to default gender
+      gender: "", // Reset to default gender
       email: "",
       phone: "",
       password: "",
@@ -68,13 +68,16 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setError(null);
 
     try {
-      const response = await fetch("https://web-ai-gym-project.vercel.app/api/users/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://web-ai-gym-project.vercel.app/api/users/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
 
@@ -124,14 +127,18 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-md text-sm"
             />
-            <input
-              name="class"
-              type="text"
-              placeholder="Class"
-              value={formData.class}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md text-sm"
-            />
+            <div className="p-2 border border-gray-300 rounded-md text-sm">
+              <button type="button" className="  text-sm focus:outline-none">
+                <label className=" text-gray-400">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden  "
+                  ></input>
+                  Upload Photo
+                </label>
+              </button>
+            </div>
             <select
               name="gender"
               value={formData.gender}
@@ -142,6 +149,15 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               <option value="Male">Male</option>
               <option value="Other">Other</option>
             </select>
+            <input
+              name="class"
+              type="text"
+              placeholder="Class"
+              value={formData.class}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md text-sm"
+            />
+
             <input
               name="email"
               type="email"
@@ -177,7 +193,9 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
           </div>
 
           {/* Body Metrics Section */}
-          <h3 className="text-lg font-medium mb-3 text-gray-700">Body Metrics</h3>
+          <h3 className="text-lg font-medium mb-3 text-gray-700">
+            Body Metrics
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               "height",
