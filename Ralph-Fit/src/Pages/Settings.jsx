@@ -40,11 +40,11 @@ const Settings = () => {
   };
 
   return (
-    <div className="flex h-screen ">
-      <div className="w-60">
+    <div className="flex h-screen flex-col lg:flex-row">
+      <div className="w-full lg:w-60">
         <Sidebar />
       </div>
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col p-4 lg:p-8">
         <div className="mt-6 ml-6">
           <h1 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
             General Settings
@@ -57,7 +57,7 @@ const Settings = () => {
           >
             <div className="flex flex-col justify-between gap-5">
               <div className="flex flex-col items-center mb-6">
-                <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
                     <img src={imageUrl} alt="Profile" className="w-full h-full object-cover" />
                   ) : (
@@ -75,8 +75,8 @@ const Settings = () => {
               </div>
 
               {/* Other form fields */}
-              <div className="flex gap-5 justify-between">
-                <div className="flex flex-col w-80">
+              <div className="flex flex-col sm:flex-row gap-5 justify-between">
+                <div className="flex flex-col w-full sm:w-80">
                   <label htmlFor="name" className="block text-sm font-medium text-gray-500">
                     Name
                   </label>
@@ -89,7 +89,7 @@ const Settings = () => {
                     className="mt-1 p-2 text-gray-600 rounded-sm border shadow-sm bg-gray-100 sm:text-sm"
                   />
                 </div>
-                <div className="flex flex-col w-80">
+                <div className="flex flex-col w-full sm:w-80">
                   <label htmlFor="email" className="block text-sm font-medium text-gray-500">
                     Email
                   </label>
@@ -103,6 +103,7 @@ const Settings = () => {
                   />
                 </div>
               </div>
+
               {/* Add other fields similarly */}
             </div>
             <div className="mt-6 flex justify-center">

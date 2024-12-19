@@ -90,12 +90,12 @@ const AddClass = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <div className="p-5 grid grid-cols-12 gap-5">
+      <div className="flex-1 flex flex-col p-5">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Add Class Form */}
-          <div className="col-span-8">
+          <div className="col-span-1 md:col-span-8">
             <h2 className="mb-2 text-lg font-semibold">Add Class</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 name="trainerName"
@@ -120,7 +120,7 @@ const AddClass = () => {
               placeholder="Class Details"
               className="mb-2 p-2 border border-gray-300 rounded-md w-full"
             />
-            <div className="grid grid-cols-3 gap-2 mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
               <input
                 type="number"
                 name="slots"
@@ -161,7 +161,7 @@ const AddClass = () => {
           </div>
 
           {/* Calendar Section */}
-          <div className="col-span-4 border border-gray-300 rounded-md shadow-md p-4">
+          <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
             <h2 className="text-lg font-semibold mb-2">Calendar</h2>
             <FullCalendar
               plugins={[dayGridPlugin]}
@@ -190,33 +190,27 @@ const AddClass = () => {
           </div>
 
           {/* Classes Section */}
-          {/* Classes Section */}
-         {/* Classes Section */}
-<div className="col-span-4 border border-gray-300 rounded-md shadow-md p-4 w-full">
-  <h2 className="text-lg font-semibold mb-2">Classes</h2>
-  
-  {/* Container for Row Layout */}
-  <div className="flex gap-4 overflow-x-auto">
-    {classes.map((cls) => (
-      <div
-        key={cls._id}
-        className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-80 shadow-md"
-      >
-        <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
-        <p className="text-sm text-gray-600">Trainer: {cls.trainerName}</p>
-        <p className="text-sm text-gray-600">Details: {cls.classDetails}</p>
-        <p className="text-sm text-gray-600">
-          Slots: {cls.slots} | Session: {cls.session}
-        </p>
-        <p className="text-sm text-gray-600">
-          Date: {new Date(cls.date).toLocaleDateString()} | Time: {cls.time}
-        </p>
-      </div>
-    ))}
-  </div>
-</div>
-
-
+          <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
+            <h2 className="text-lg font-semibold mb-2">Classes</h2>
+            <div className="flex gap-4 overflow-x-auto">
+              {classes.map((cls) => (
+                <div
+                  key={cls._id}
+                  className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-full md:w-80 shadow-md"
+                >
+                  <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
+                  <p className="text-sm text-gray-600">Trainer: {cls.trainerName}</p>
+                  <p className="text-sm text-gray-600">Details: {cls.classDetails}</p>
+                  <p className="text-sm text-gray-600">
+                    Slots: {cls.slots} | Session: {cls.session}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Date: {new Date(cls.date).toLocaleDateString()} | Time: {cls.time}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

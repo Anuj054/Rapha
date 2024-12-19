@@ -55,9 +55,8 @@ const Attendance = () => {
       const fetchAttendance = async () => {
         try {
           const url = `https://web-ai-gym-project.vercel.app/api/attendance/${selectedClass}/week${selectedWeek}/${selectedMonth}`;
-          console.log(`Fetching attendance data from: ${url}`); // Log the full URL
           const response = await axios.get(url);
-  
+
           if (response.status === 404 || !response.data.data || response.data.data.length === 0) {
             // If no data or 404 error, mark all users as "Absent"
             const updatedAttendance = users.map((user) => ({
@@ -69,30 +68,28 @@ const Attendance = () => {
           } else {
             // Handle the case where data is returned
             const fetchedAttendance = response.data.data;
-  
+
             const updatedAttendance = users.map((user) => {
               const userAttendance = fetchedAttendance.find(
                 (item) => item.userId === user._id
               );
-  
-              // If no attendance data is found for this user, mark all days as "Absent"
+
               const attendance = userAttendance
                 ? days.map(
                     (day) => userAttendance?.weekAttendance?.[day] || "Absent"
                   )
                 : Array(days.length).fill("Absent");
-  
+
               return {
                 userId: user._id,
                 userName: user.name,
                 attendance: attendance,
               };
             });
-  
+
             setAttendanceData(updatedAttendance);
           }
         } catch (error) {
-          // If there's any error (including 404), fallback to marking all users as "Absent"
           const updatedAttendance = users.map((user) => ({
             userId: user._id,
             userName: user.name,
@@ -101,13 +98,10 @@ const Attendance = () => {
           setAttendanceData(updatedAttendance);
         }
       };
-  
+
       fetchAttendance();
     }
   }, [selectedClass, selectedMonth, selectedWeek, users]);
-  
-  
-  
 
   const handleClassChange = (e) => setSelectedClass(e.target.value);
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
@@ -230,12 +224,12 @@ const Attendance = () => {
         </div>
 
         {/* Attendance Grid */}
-        <div className="p-5 mx-4 mt-4 border rounded-lg shadow-sm bg-white">
+        <div className="p-5 mx-4 mt-4 border rounded-lg shadow-sm bg-white overflow-x-auto">
           <div
-            className="grid gap-4"
+            className="grid gap-4 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-6"
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${days.length + 1}, 1fr)`,
+              gridTemplateColumns: `repeat(${days.length + 1}, minmax(100px, 1fr))`,
               alignItems: "center",
               textAlign: "center",
             }}

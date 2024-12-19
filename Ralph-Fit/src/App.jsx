@@ -1,36 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./Pages/Login";
 import UserManagement from "./Pages/UserMangement";
 import AddClass from "./Pages/AddClass";
 import Attendance from "./Pages/Attendence";
-
 import Subscription from "./Pages/Subscription";
 import Settings from "./Pages/Settings";
 import Notification from "./Pages/Notification";
 import Profile from "./Components/Profile";
 import NavBar from "./Components/NavBar"; // Import the NavBar component
+import Sidebar from "./Components/Sidebar"; // Import the Sidebar component
 
 function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Function to toggle sidebar visibility
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
+
   return (
     <Router>
-      <NavBar /> {/* Include NavBar component */}
-      <Routes>
-        {/* Login Page */}
-        <Route path="/" element={<Login />} />
+      {/* Pass the toggleSidebar function to NavBar */}
+      <NavBar toggleSidebar={toggleSidebar} />
 
-        {/* Dashboard with Sidebar */}
+      {/* Conditional Sidebar rendering */}
+      <div className="md:block hidden">
+        {/* Desktop Sidebar is always visible */}
+        <Sidebar />
+      </div>
 
-        <Route path="/dashboard/usermanagement" element={<UserManagement />} />
-        <Route path="/dashboard/addclass" element={<AddClass />} />
-        <Route path="/dashboard/attendence" element={<Attendance />} />
-        <Route path="/dashboard/subscription" element={<Subscription />} />
-        <Route path="/dashboard/settings" element={<Settings />} />
-        <Route path="/dashboard/notifications" element={<Notification />} />
-        <Route path="/profile" element={<Profile />} />
-      </Routes>
+      <div className="md:hidden">
+        {/* Mobile Sidebar is toggled based on isSidebarOpen */}
+        <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      </div>
+
+      {/* Main content area */}
+      <div
+        className={`transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-60" : "ml-0"}`}
+      >
+        <Routes>
+          {/* Login Page */}
+          <Route path="/" element={<Login />} />
+
+          {/* Dashboard with Sidebar */}
+          <Route path="/dashboard/usermanagement" element={<UserManagement />} />
+          <Route path="/dashboard/addclass" element={<AddClass />} />
+          <Route path="/dashboard/attendence" element={<Attendance />} />
+          <Route path="/dashboard/subscription" element={<Subscription />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
+          <Route path="/dashboard/notifications" element={<Notification />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      </div>
     </Router>
   );
 }
+
+
 
 export default App;

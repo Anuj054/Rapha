@@ -23,24 +23,24 @@ const Login = () => {
   return (
     <div className="flex items-center justify-center fixed inset-0 bg-gray-50 max-h-full">
       {/* Logo */}
-      <div className="absolute top-8 left-8">
-        <img src={logo} alt="Rapha-Fit Pilates Logo" className="h-8" />
+      <div className="absolute top-8 left-8 md:left-16">
+        <img src={logo} alt="Rapha-Fit Pilates Logo" className="h-8 md:h-10" />
       </div>
 
       {/* Background Illustration */}
-      <div className=" absolute inset-0 w-full h-[157%] items-baseline">
+      <div className="absolute inset-0 w-full h-full">
         <img
           src={loginbg}
           alt="Background"
-          className="w-full h-full object-contain hidden md:block"
+          className="w-full h-full object-cover"
         />
       </div>
 
       {/* Login Form */}
-      <div className="relative z-10 flex items-center justify-center w-full">
+      <div className="relative z-10 flex items-center justify-center w-full px-4 py-8">
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 md:p-10 rounded-lg shadow-md w-[90%] max-w-[400px]"
+          className="bg-white p-8 md:p-10 rounded-lg shadow-md w-full sm:w-[90%] md:w-[400px] lg:w-[450px]"
         >
           <h2 className="text-center text-xl md:text-2xl font-bold text-gray-800 mb-6">
             ADMIN

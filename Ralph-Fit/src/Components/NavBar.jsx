@@ -1,11 +1,11 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({ toggleSidebar }) => {
   return (
     <div className="flex justify-between items-center px-6 py-3 bg-[#6f5c47] text-white shadow-md">
       {/* Left Section (optional - add logo or title if needed) */}
-      <div className="text-[#e2f163] text-xl font-bold flex ">
+      <div className="text-[#e2f163] text-xl font-bold flex">
         RAPHA-FIT PILATES
       </div>
 
@@ -31,6 +31,27 @@ const NavBar = () => {
           </div>
         </Link>
       </div>
+
+      {/* Mobile Menu Button */}
+      <button
+        onClick={toggleSidebar}  // Trigger the sidebar to show/hide
+        className="block md:hidden text-white"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
     </div>
   );
 };
