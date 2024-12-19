@@ -22,16 +22,31 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     bmr: "",
     bodyWater: "",
     bodyFat: "",
+    profilePhoto: "", // Added profile photo field
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Handle field value changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle file input and convert to Base64
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, profilePhoto: reader.result }); // Store Base64 string
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Add another user without closing the popup
   const handleAddAnother = () => {
     if (typeof onSubmit === "function") {
       onSubmit(formData);
@@ -42,7 +57,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setFormData({
       name: "",
       class: "",
-      gender: "", // Reset to default gender
+      gender: "Female", // Reset to default gender
       email: "",
       phone: "",
       password: "",
@@ -60,14 +75,18 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       bmr: "",
       bodyWater: "",
       bodyFat: "",
+      profilePhoto: "", // Reset profile photo
     });
   };
 
+  // Submit the form data to the server
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
-
+  
     try {
+      console.log("Submitting data:", formData);
+  
       const response = await fetch(
         "https://web-ai-gym-project.vercel.app/api/users/create",
         {
@@ -78,31 +97,27 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
           body: JSON.stringify(formData),
         }
       );
-
+  
+      console.log("Response status:", response.status);
+  
       const result = await response.json();
-
+      console.log("Response body:", result);
+  
       if (response.ok) {
-        // Success: Show success message or close popup
-        if (typeof onSubmit === "function") {
-          onSubmit(formData);
-        } else {
-          console.error("onSubmit is not a function");
-        }
+        onSubmit?.(formData);
         onClose();
         alert("User added successfully!");
       } else {
-        // API error: Log and show the error message
-        console.error("API Error:", result.message);
         setError(result.message || "Failed to add user");
       }
     } catch (error) {
-      // Network or other error
-      console.error("Network Error:", error);
+      console.error("Network error:", error);
       setError("An error occurred while adding the user.");
     } finally {
       setLoading(false);
     }
   };
+  
 
   if (!isOpen) return null;
 
@@ -127,17 +142,26 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-md text-sm"
             />
+            {/* Profile Photo */}
             <div className="p-2 border border-gray-300 rounded-md text-sm">
-              <button type="button" className="  text-sm focus:outline-none">
-                <label className=" text-gray-400">
+              <button type="button" className="text-sm focus:outline-none">
+                <label className="text-gray-400">
                   <input
                     type="file"
                     accept="image/*"
-                    className="hidden  "
-                  ></input>
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
                   Upload Photo
                 </label>
               </button>
+              {formData.profilePhoto && (
+                <img
+                  src={formData.profilePhoto}
+                  alt="Profile Preview"
+                  className="mt-2 w-20 h-20 object-cover rounded-full"
+                />
+              )}
             </div>
             <select
               name="gender"
@@ -157,7 +181,6 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-md text-sm"
             />
-
             <input
               name="email"
               type="email"
