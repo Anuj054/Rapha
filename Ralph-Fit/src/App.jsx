@@ -9,7 +9,7 @@ import Settings from "./Pages/Settings";
 import Notification from "./Pages/Notification";
 import Profile from "./Components/Profile";
 import NavBar from "./Components/NavBar"; // Import the NavBar component
-import Sidebar from "./Components/Sidebar"; // Import the Sidebar component
+import Sidebar from "./Components/SideBar"; // Import the Sidebar component
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,12 +22,6 @@ function App() {
       {/* Pass the toggleSidebar function to NavBar */}
       <NavBar toggleSidebar={toggleSidebar} />
 
-      {/* Conditional Sidebar rendering */}
-      <div className="md:block hidden">
-        {/* Desktop Sidebar is always visible */}
-        <Sidebar />
-      </div>
-
       <div className="md:hidden">
         {/* Mobile Sidebar is toggled based on isSidebarOpen */}
         <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -35,14 +29,19 @@ function App() {
 
       {/* Main content area */}
       <div
-        className={`transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-60" : "ml-0"}`}
+        className={`transition-all duration-300 ease-in-out ${
+          isSidebarOpen ? "ml-60" : "ml-0"
+        }`}
       >
         <Routes>
           {/* Login Page */}
           <Route path="/" element={<Login />} />
 
           {/* Dashboard with Sidebar */}
-          <Route path="/dashboard/usermanagement" element={<UserManagement />} />
+          <Route
+            path="/dashboard/usermanagement"
+            element={<UserManagement />}
+          />
           <Route path="/dashboard/addclass" element={<AddClass />} />
           <Route path="/dashboard/attendence" element={<Attendance />} />
           <Route path="/dashboard/subscription" element={<Subscription />} />
@@ -54,7 +53,5 @@ function App() {
     </Router>
   );
 }
-
-
 
 export default App;
