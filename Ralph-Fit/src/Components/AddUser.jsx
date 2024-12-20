@@ -85,23 +85,20 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setError(null);
   
     try {
-      console.log("Submitting data:", formData);
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach((key) => {
+        formDataToSend.append(key, formData[key]);
+      });
   
       const response = await fetch(
         "https://web-ai-gym-project.vercel.app/api/users/create",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formDataToSend,
         }
       );
   
-      console.log("Response status:", response.status);
-  
       const result = await response.json();
-      console.log("Response body:", result);
   
       if (response.ok) {
         onSubmit?.(formData);
@@ -117,6 +114,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       setLoading(false);
     }
   };
+  
   
 
   if (!isOpen) return null;

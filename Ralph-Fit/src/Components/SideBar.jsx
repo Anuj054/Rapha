@@ -5,6 +5,7 @@ import notification from "../Assets/notification.svg";
 import settings from "../Assets/settings.svg";
 import Attendence from "../Assets/Attendencs.svg";
 import classschedule from "../Assets/classschedule.svg";
+import classesIcon from "../Assets/classschedule.svg"; // Add the import for the classes icon
 import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
@@ -21,12 +22,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`fixed top-0 left-0 h-full bg-[#6f5c47] flex flex-col p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } md:relative md:translate-x-0 md:block`}  // Make sure it's visible in desktop
+      } md:relative md:translate-x-0 md:block`}
     >
       {/* Sidebar Header */}
-      <div className="text-white text-xl font-bold mb-6">
-        RAPHA-FIT PILATES
-      </div>
 
       {/* Menu Items */}
       <ul className="list-none flex-1">
@@ -63,6 +61,24 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
               <img src={classschedule} alt="Classes Schedule" />
             </div>
             <span>Classes Schedule</span>
+          </li>
+        </Link>
+
+        <Link
+          to="/dashboard/classes" // New route for the Classes page
+          style={{ textDecoration: "none" }}
+          className="text-white"
+          onClick={handleLinkClick} // Close the sidebar on click (mobile)
+        >
+          <li
+            className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
+              location.pathname === "/dashboard/classes" ? "bg-[#45413c]" : ""
+            }`}
+          >
+            <div className="p-2">
+              <img src={classesIcon} alt="Classes" /> {/* Add the icon here */}
+            </div>
+            <span>Classes</span>
           </li>
         </Link>
 
