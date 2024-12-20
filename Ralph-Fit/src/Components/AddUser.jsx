@@ -85,7 +85,13 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setError(null);
   
     try {
-      console.log("Submitting data:", formData);
+      // Ensure only valid fields are sent
+      const dataToSend = { ...formData };
+      if (!dataToSend.profilePhoto) {
+        delete dataToSend.profilePhoto; // Remove profilePhoto if empty
+      }
+  
+      console.log("Data being sent to API:", dataToSend); // Debug log
   
       const response = await fetch(
         "https://web-ai-gym-project.vercel.app/api/users/create",
@@ -94,14 +100,12 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(dataToSend),
         }
       );
   
-      console.log("Response status:", response.status);
-  
       const result = await response.json();
-      console.log("Response body:", result);
+      console.log("API Response:", result); // Debug log
   
       if (response.ok) {
         onSubmit?.(formData);
@@ -117,6 +121,8 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       setLoading(false);
     }
   };
+  
+  
   
 
   if (!isOpen) return null;

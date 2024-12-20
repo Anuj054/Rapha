@@ -47,6 +47,8 @@ function App() {
           <Route path="/dashboard/subscription" element={<Subscription />} />
           <Route path="/dashboard/settings" element={<Settings />} />
           <Route path="/dashboard/notifications" element={<Notification />} />
+          <Route path="/dashboard/classes" element={<Notification />} />
+
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
