@@ -22,7 +22,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
     <div
       className={`fixed top-0 left-0 h-full bg-[#6f5c47] flex flex-col p-4 transition-transform duration-300 ease-in-out transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } md:relative md:translate-x-0 md:block`}
+      } md:relative md:translate-x-0 md:block`} // Make sure it's visible in desktop
     >
       {/* Sidebar Header */}
 
@@ -36,7 +36,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/usermanagement" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/usermanagement"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
             <div className="p-2">
@@ -90,7 +92,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/attendence" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/attendence"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
             <div className="p-2">
@@ -108,7 +112,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         >
           <li
             className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-              location.pathname === "/dashboard/subscription" ? "bg-[#45413c]" : ""
+              location.pathname === "/dashboard/subscription"
+                ? "bg-[#45413c]"
+                : ""
             }`}
           >
             <div className="p-2">
@@ -131,7 +137,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           >
             <li
               className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-                location.pathname === "/dashboard/notifications" ? "bg-[#45413c]" : ""
+                location.pathname === "/dashboard/notifications"
+                  ? "bg-[#45413c]"
+                  : ""
               }`}
             >
               <div className="p-2">
@@ -149,7 +157,9 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           >
             <li
               className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
-                location.pathname === "/dashboard/settings" ? "bg-[#45413c]" : ""
+                location.pathname === "/dashboard/settings"
+                  ? "bg-[#45413c]"
+                  : ""
               }`}
             >
               <div className="p-2">

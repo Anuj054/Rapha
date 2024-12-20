@@ -59,7 +59,11 @@ const Settings = () => {
               <div className="flex flex-col items-center mb-6">
                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
                   {imageUrl ? (
-                    <img src={imageUrl} alt="Profile" className="w-full h-full object-cover" />
+                    <img
+                      src={imageUrl}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <label className="text-blue-400 text-sm cursor-pointer">
                       <input
@@ -75,9 +79,13 @@ const Settings = () => {
               </div>
 
               {/* Other form fields */}
+
               <div className="flex flex-col sm:flex-row gap-5 justify-between">
                 <div className="flex flex-col w-full sm:w-80">
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-500">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-500"
+                  >
                     Name
                   </label>
                   <input
@@ -90,7 +98,10 @@ const Settings = () => {
                   />
                 </div>
                 <div className="flex flex-col w-full sm:w-80">
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-500">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-500"
+                  >
                     Email
                   </label>
                   <input
@@ -98,6 +109,58 @@ const Settings = () => {
                     name="email"
                     id="email"
                     value={formData.email}
+                    onChange={handleChange}
+                    className="mt-1 p-2 text-gray-600 rounded-sm border shadow-sm bg-gray-100 sm:text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-5 justify-between">
+                <div className="flex flex-col w-full sm:w-80">
+                  <label
+                    htmlFor="address"
+                    className="block text-sm font-medium text-gray-500"
+                  >
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="mt-1 p-2 text-gray-600 rounded-sm border shadow-sm bg-gray-100 sm:text-sm"
+                  />
+                </div>
+                <div className="flex flex-col w-full sm:w-80">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-500"
+                  >
+                    Gender
+                  </label>
+                  <input
+                    type="text"
+                    name="gender"
+                    id="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    className="mt-1 p-2 text-gray-600 rounded-sm border shadow-sm bg-gray-100 sm:text-sm"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-5 justify-between">
+                <div className="flex flex-col w-full sm:w-80">
+                  <label
+                    htmlFor="number"
+                    className="block text-sm font-medium text-gray-500"
+                  >
+                    Number
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={formData.number}
                     onChange={handleChange}
                     className="mt-1 p-2 text-gray-600 rounded-sm border shadow-sm bg-gray-100 sm:text-sm"
                   />
