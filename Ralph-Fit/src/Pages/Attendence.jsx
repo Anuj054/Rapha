@@ -35,7 +35,11 @@ const Attendance = () => {
         const initialAttendance = response.data.map((user) => ({
           userId: user._id,
           userName: user.name,
+<<<<<<< HEAD
           attendance: Array(5).fill("Absent"),
+=======
+          attendance: Array(5).fill("Absent"), // Initialize for Monday-Friday
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
         }));
         setUsers(response.data);
         setAttendanceData(initialAttendance);
@@ -48,6 +52,7 @@ const Attendance = () => {
     fetchUsers();
   }, []);
 
+<<<<<<< HEAD
   // Generate Week Dates
   useEffect(() => {
     const generateWeekDates = (month, week) => {
@@ -81,6 +86,44 @@ const Attendance = () => {
   }, [selectedMonth, selectedWeek]);
 
   // Fetch attendance data
+=======
+  // Calculate dates for the selected week and month
+  useEffect(() => {
+    const calculateWeekDates = (month, week) => {
+      const monthIndex = months.indexOf(month); // Convert month name to index
+      const firstDay = new Date(new Date().getFullYear(), monthIndex, 1); // First day of the month
+      const firstMonday =
+        firstDay.getDay() === 1
+          ? firstDay
+          : new Date(
+              firstDay.setDate(
+                firstDay.getDate() + ((1 - firstDay.getDay() + 7) % 7)
+              )
+            ); // Get first Monday of the month
+
+      const weekStart = new Date(
+        firstMonday.setDate(firstMonday.getDate() + (week - 1) * 7)
+      ); // Start of the selected week
+      const weekDates = Array.from({ length: 5 }, (_, i) => {
+        const date = new Date(weekStart);
+        date.setDate(weekStart.getDate() + i);
+        return date.toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+        }); // Format date
+      });
+
+      return weekDates;
+    };
+
+    if (selectedMonth && selectedWeek) {
+      const dates = calculateWeekDates(selectedMonth, parseInt(selectedWeek));
+      setWeekDates(dates);
+    }
+  }, [selectedMonth, selectedWeek]);
+
+  // Fetch attendance data when selections change
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
   useEffect(() => {
     if (selectedClass && selectedMonth && selectedWeek) {
       const fetchAttendance = async () => {
@@ -88,11 +131,23 @@ const Attendance = () => {
           const url = `https://web-ai-gym-project.vercel.app/api/attendance/${selectedClass}/week${selectedWeek}/${selectedMonth}`;
           const response = await axios.get(url);
 
+<<<<<<< HEAD
           if (!response.data.data || response.data.data.length === 0) {
             const updatedAttendance = users.map((user) => ({
               userId: user._id,
               userName: user.name,
               attendance: Array(weekDates.length).fill("Absent"), // Use weekDates.length instead of fixed 5
+=======
+          if (
+            response.status === 404 ||
+            !response.data.data ||
+            response.data.data.length === 0
+          ) {
+            const updatedAttendance = users.map((user) => ({
+              userId: user._id,
+              userName: user.name,
+              attendance: Array(5).fill("Absent"),
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
             }));
             setAttendanceData(updatedAttendance);
           } else {
@@ -107,7 +162,11 @@ const Attendance = () => {
                 ? weekDates.map(
                     (date) => userAttendance?.weekAttendance?.[date] || "Absent"
                   )
+<<<<<<< HEAD
                 : Array(weekDates.length).fill("Absent");
+=======
+                : Array(5).fill("Absent");
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
 
               return {
                 userId: user._id,
@@ -119,13 +178,26 @@ const Attendance = () => {
             setAttendanceData(updatedAttendance);
           }
         } catch (error) {
+<<<<<<< HEAD
           console.error("Error fetching attendance data:", error.message);
+=======
+          const updatedAttendance = users.map((user) => ({
+            userId: user._id,
+            userName: user.name,
+            attendance: Array(5).fill("Absent"),
+          }));
+          setAttendanceData(updatedAttendance);
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
         }
       };
 
       fetchAttendance();
     }
+<<<<<<< HEAD
   }, [selectedClass, selectedMonth, selectedWeek, weekDates]);
+=======
+  }, [selectedClass, selectedMonth, selectedWeek, users, weekDates]);
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
 
   const handleClassChange = (e) => setSelectedClass(e.target.value);
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
@@ -136,6 +208,16 @@ const Attendance = () => {
     updatedAttendance[userIndex].attendance[dayIndex] = value;
     setAttendanceData(updatedAttendance);
 
+<<<<<<< HEAD
+=======
+    if (!selectedClass || !selectedMonth || !selectedWeek) {
+      alert(
+        "Please select a class, month, and week before marking attendance."
+      );
+      return;
+    }
+
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
     const attendancePayload = {
       userId: updatedAttendance[userIndex].userId,
       classId: selectedClass,
@@ -186,7 +268,9 @@ const Attendance = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col bg-gray-100">
         <div className="p-4 bg-white border-b shadow-sm flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-gray-700">User Attendance</h2>
+          <h2 className="text-2xl font-semibold text-gray-700">
+            User Attendance
+          </h2>
           <div className="flex space-x-4">
             <select
               className="border rounded-md px-3 py-1 text-gray-600 bg-gray-50"
@@ -202,6 +286,10 @@ const Attendance = () => {
                 </option>
               ))}
             </select>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
             <select
               className="border rounded-md px-3 py-1 text-gray-600 bg-gray-50"
               value={selectedMonth}
@@ -213,6 +301,10 @@ const Attendance = () => {
                 </option>
               ))}
             </select>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
             <select
               className="border rounded-md px-3 py-1 text-gray-600 bg-gray-50"
               value={selectedWeek}
@@ -232,19 +324,39 @@ const Attendance = () => {
             className="grid gap-4"
             style={{
               display: "grid",
+<<<<<<< HEAD
               gridTemplateColumns: `repeat(${weekDates.length + 1}, minmax(100px, 1fr))`,
+=======
+              gridTemplateColumns: `repeat(${
+                weekDates.length + 1
+              }, minmax(100px, 1fr))`,
+              alignItems: "center",
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
               textAlign: "center",
             }}
           >
             <div className="font-semibold px-4 py-2 text-gray-600">Name</div>
             {weekDates.map((date, index) => (
+<<<<<<< HEAD
               <div key={index} className="font-semibold px-4 py-2 text-gray-600">
                 {date}
               </div>
             ))}
+=======
+              <div
+                key={index}
+                className="font-semibold px-4 py-2 text-gray-600"
+              >
+                {date}
+              </div>
+            ))}
+
+>>>>>>> 993098cb366c54860fba4646389830cc3f15f2f3
             {attendanceData.map((user, userIndex) => (
               <React.Fragment key={user.userId}>
-                <div className="p-2 text-gray-700 font-medium">{user.userName}</div>
+                <div className="p-2 text-gray-700 font-medium">
+                  {user.userName}
+                </div>
                 {user.attendance.map((status, dayIndex) => (
                   <div key={dayIndex} className="p-2">
                     <div
