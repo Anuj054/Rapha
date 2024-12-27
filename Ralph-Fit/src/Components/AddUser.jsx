@@ -83,16 +83,16 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
-  
+
     try {
       // Ensure only valid fields are sent
       const dataToSend = { ...formData };
       if (!dataToSend.profilePhoto) {
         delete dataToSend.profilePhoto; // Remove profilePhoto if empty
       }
-  
+
       console.log("Data being sent to API:", dataToSend); // Debug log
-  
+
       const response = await fetch(
         "https://web-ai-gym-project.vercel.app/api/users/create",
         {
@@ -103,10 +103,10 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
           body: JSON.stringify(dataToSend),
         }
       );
-  
+
       const result = await response.json();
       console.log("API Response:", result); // Debug log
-  
+
       if (response.ok) {
         onSubmit?.(formData);
         onClose();
@@ -121,9 +121,6 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       setLoading(false);
     }
   };
-  
-  
-  
 
   if (!isOpen) return null;
 
@@ -149,26 +146,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               className="p-2 border border-gray-300 rounded-md text-sm"
             />
             {/* Profile Photo */}
-            <div className="p-2 border border-gray-300 rounded-md text-sm">
-              <button type="button" className="text-sm focus:outline-none">
-                <label className="text-gray-400">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                  Upload Photo
-                </label>
-              </button>
-              {formData.profilePhoto && (
-                <img
-                  src={formData.profilePhoto}
-                  alt="Profile Preview"
-                  className="mt-2 w-20 h-20 object-cover rounded-full"
-                />
-              )}
-            </div>
+
             <select
               name="gender"
               value={formData.gender}
