@@ -182,7 +182,9 @@ const AddClass = () => {
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Diam.
                     </p>
-                    <span className="text-xs text-gray-500">9th April 2022</span>
+                    <span className="text-xs text-gray-500">
+                      9th April 2022
+                    </span>
                   </div>
                 ))}
               </div>
@@ -190,7 +192,7 @@ const AddClass = () => {
           </div>
 
           {/* Classes Section */}
-          <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
+          <div className=" sm:col-span-8 md:col-span-12 border border-gray-300 rounded-md shadow-md p-4">
             <h2 className="text-lg font-semibold mb-2">Classes</h2>
             <div className="flex gap-4 overflow-x-auto">
               {classes.map((cls) => (
@@ -199,13 +201,18 @@ const AddClass = () => {
                   className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-full md:w-80 shadow-md"
                 >
                   <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
-                  <p className="text-sm text-gray-600">Trainer: {cls.trainerName}</p>
-                  <p className="text-sm text-gray-600">Details: {cls.classDetails}</p>
+                  <p className="text-sm text-gray-600">
+                    Trainer: {cls.trainerName}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Details: {cls.classDetails}
+                  </p>
                   <p className="text-sm text-gray-600">
                     Slots: {cls.slots} | Session: {cls.session}
                   </p>
                   <p className="text-sm text-gray-600">
-                    Date: {new Date(cls.date).toLocaleDateString()} | Time: {cls.time}
+                    Date: {new Date(cls.date).toLocaleDateString()} | Time:{" "}
+                    {cls.time}
                   </p>
                 </div>
               ))}
