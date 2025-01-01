@@ -41,7 +41,7 @@ const Settings = () => {
 
   return (
     <div className="flex h-screen flex-col lg:flex-row">
-      <div className="w-full ">
+      <div className>
         <Sidebar />
       </div>
       <div className="flex-1 flex flex-col p-4 lg:p-8">
