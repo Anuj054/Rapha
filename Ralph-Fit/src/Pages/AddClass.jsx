@@ -11,18 +11,12 @@ const AddClass = () => {
     slots: "",
     date: "",
     time: "",
-    session: "",
   });
 
   const [classes, setClasses] = useState([]);
-  const scheduleData = [
-    { id: 1, day: "Saturday", color: "border-l-orange-400" },
-    { id: 2, day: "Saturday", color: "border-l-green-400" },
-    { id: 3, day: "Saturday", color: "border-l-red-400" },
-    { id: 4, day: "Saturday", color: "border-l-blue-400" },
-  ];
+  const [selectedClassDetails, setSelectedClassDetails] = useState(null);
+  const [users, setUsers] = useState([]);
 
-  // Fetch classes from the API
   const fetchClasses = async () => {
     try {
       const response = await fetch(
@@ -39,7 +33,25 @@ const AddClass = () => {
     }
   };
 
-  // Fetch classes on component mount
+  const fetchUsersByClassId = async (classId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/class-booking/users/${classId}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        // Transform array of names into objects if only names are returned
+        setUsers(data.users.map((name) => ({ name })));
+      } else {
+        console.error("Failed to fetch users for the class");
+        setUsers([]);
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      setUsers([]);
+    }
+  };
+
   useEffect(() => {
     fetchClasses();
   }, []);
@@ -74,7 +86,6 @@ const AddClass = () => {
           slots: "",
           date: "",
           time: "",
-          session: "",
         });
         fetchClasses();
       } else {
@@ -85,6 +96,18 @@ const AddClass = () => {
       console.error("Error adding class:", error);
       alert("An error occurred while adding the class. Please try again.");
     }
+  };
+
+  const events = classes.map((cls) => ({
+    title: cls.className,
+    start: cls.date,
+    extendedProps: cls, // Pass additional class details
+  }));
+
+  const handleEventClick = (eventInfo) => {
+    const selectedClass = eventInfo.event.extendedProps;
+    setSelectedClassDetails(selectedClass);
+    fetchUsersByClassId(selectedClass._id); // Fetch users when a class is selected
   };
 
   return (
@@ -144,14 +167,6 @@ const AddClass = () => {
                 className="p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <input
-              type="text"
-              name="session"
-              value={formData.session}
-              onChange={handleInputChange}
-              placeholder="Session"
-              className="mb-2 p-2 border border-gray-300 rounded-md w-full"
-            />
             <button
               className="mt-2 p-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
               onClick={handleAddClass}
@@ -167,50 +182,40 @@ const AddClass = () => {
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
               height="300px"
-              headerToolbar={false}
+              events={events}
+              eventClick={handleEventClick}
+              headerToolbar={{
+                start: "prev,next",
+                center: "title",
+                end: "today",
+              }}
             />
-            <div className="p-5">
-              <h2 className="text-lg font-semibold mb-3">Schedule a Class</h2>
-              <div className="space-y-3">
-                {scheduleData.map((item) => (
-                  <div
-                    key={item.id}
-                    className={`p-3 bg-yellow-100 border-l-4 ${item.color} rounded-md`}
-                  >
-                    <h3 className="font-bold">{item.day}</h3>
-                    <p className="text-sm text-gray-600">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Diam.
-                    </p>
-                    <span className="text-xs text-gray-500">9th April 2022</span>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
 
-          {/* Classes Section */}
-          <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
-            <h2 className="text-lg font-semibold mb-2">Classes</h2>
-            <div className="flex gap-4 overflow-x-auto">
-              {classes.map((cls) => (
-                <div
-                  key={cls._id}
-                  className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-full md:w-80 shadow-md"
-                >
-                  <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
-                  <p className="text-sm text-gray-600">Trainer: {cls.trainerName}</p>
-                  <p className="text-sm text-gray-600">Details: {cls.classDetails}</p>
-                  <p className="text-sm text-gray-600">
-                    Slots: {cls.slots} | Session: {cls.session}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Date: {new Date(cls.date).toLocaleDateString()} | Time: {cls.time}
-                  </p>
-                </div>
-              ))}
+          {/* Class Details and Users */}
+          {selectedClassDetails && (
+            <div className="col-span-1 md:col-span-12 mt-5 p-4 border border-gray-300 rounded-md">
+              <h3 className="text-lg font-semibold mb-2">
+                Class Details: {selectedClassDetails.className}
+              </h3>
+              <p>Trainer: {selectedClassDetails.trainerName}</p>
+              <p>Details: {selectedClassDetails.classDetails}</p>
+              <p>Slots: {selectedClassDetails.slots}</p>
+              <p>Date: {new Date(selectedClassDetails.date).toLocaleDateString()}</p>
+              <p>Time: {selectedClassDetails.time}</p>
+
+              <h3 className="text-lg font-semibold mt-4">Users</h3>
+              {users.length > 0 ? (
+                <ul>
+                  {users.map((user, index) => (
+                    <li key={index}>{user.name}</li> // Only name is available
+                  ))}
+                </ul>
+              ) : (
+                <p>No users for this class.</p>
+              )}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
