@@ -192,19 +192,22 @@ const AddClass = () => {
               }}
             />
           </div>
-
+          <div className=" md:col-span-8"></div>
           {/* Class Details and Users */}
           {selectedClassDetails && (
             <div className="col-span-1 md:col-span-4 mt-5 p-4 border border-gray-300 rounded-md">
               {/* First row: Date and Time */}
               <div className="border-b pb-3 mb-3">
                 <div className="text-xl font-semibold">
-                  {new Date(selectedClassDetails.date).toLocaleDateString('en-US', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
+                  {new Date(selectedClassDetails.date).toLocaleDateString(
+                    "en-US",
+                    {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
                 </div>
                 <div className="text-gray-600 mt-1">
                   Time: {selectedClassDetails.time}
@@ -227,7 +230,7 @@ const AddClass = () => {
                 <div className="space-y-3">
                   {users.length > 0 ? (
                     users.map((user) => (
-                      <div 
+                      <div
                         key={user.userId}
                         className="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
@@ -261,11 +264,10 @@ const AddClass = () => {
                   <p className="text-sm text-gray-600">
                     Details: {cls.classDetails}
                   </p>
+                  <p className="text-sm text-gray-600">Slots: {cls.slots}</p>
                   <p className="text-sm text-gray-600">
-                    Slots: {cls.slots}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Date: {new Date(cls.date).toLocaleDateString()} | Time: {cls.time}
+                    Date: {new Date(cls.date).toLocaleDateString()} | Time:{" "}
+                    {cls.time}
                   </p>
                 </div>
               ))}
