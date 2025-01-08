@@ -174,14 +174,13 @@ const AddClass = () => {
               Add Class
             </button>
           </div>
-
           {/* Calendar Section */}
           <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
             <h2 className="text-lg font-semibold mb-2">Calendar</h2>
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
-              height="300px"
+              height="450px"
               events={events}
               eventClick={handleEventClick}
               headerToolbar={{
@@ -191,17 +190,19 @@ const AddClass = () => {
               }}
             />
           </div>
-
           {/* Class Details and Users */}
+          <div className=" md:col-span-8"></div>
           {selectedClassDetails && (
-            <div className="col-span-1 md:col-span-12 mt-5 p-4 border border-gray-300 rounded-md">
+            <div className="col-span-1 md:col-span-4 mt-5 p-4 border border-gray-300 rounded-md">
               <h3 className="text-lg font-semibold mb-2">
                 Class Details: {selectedClassDetails.className}
               </h3>
               <p>Trainer: {selectedClassDetails.trainerName}</p>
               <p>Details: {selectedClassDetails.classDetails}</p>
               <p>Slots: {selectedClassDetails.slots}</p>
-              <p>Date: {new Date(selectedClassDetails.date).toLocaleDateString()}</p>
+              <p>
+                Date: {new Date(selectedClassDetails.date).toLocaleDateString()}
+              </p>
               <p>Time: {selectedClassDetails.time}</p>
 
               <h3 className="text-lg font-semibold mt-4">Users</h3>
@@ -215,7 +216,33 @@ const AddClass = () => {
                 <p>No users for this class.</p>
               )}
             </div>
-          )}
+          )}{" "}
+          <div className="col-span-4 md:col-span-12 sm:col-span-8 border border-gray-300 rounded-md shadow-md p-4">
+            <h2 className="text-lg font-semibold mb-2">Classes</h2>
+            <div className="flex gap-4 overflow-x-auto">
+              {classes.map((cls) => (
+                <div
+                  key={cls._id}
+                  className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-full md:w-80 shadow-md"
+                >
+                  <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
+                  <p className="text-sm text-gray-600">
+                    Trainer: {cls.trainerName}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Details: {cls.classDetails}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Slots: {cls.slots} | Session: {cls.session}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Date: {new Date(cls.date).toLocaleDateString()} | Time:{" "}
+                    {cls.time}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
