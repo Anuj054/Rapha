@@ -31,14 +31,14 @@ const Settings = () => {
       <div className>
         <Sidebar />
       </div>
-      <div className="flex-1 flex flex-col p-4 lg:p-8">
-        <div className="mt-6 ml-6">
-          <h1 className="text-2xl font-bold text-gray-700 mb-6">
+      <div className="flex-1 flex flex-col p-5 lg:p-5">
+        <div className="">
+          <h1 className="text-2xl font-semibold text-gray-600">
             Feedback and Reviews
           </h1>
         </div>
         <div className="flex m-3 h-full border rounded-lg justify-items-center bg-gray-100">
-          <div className=" w-full p-3">
+          <div className=" w-full p-3 mx-auto">
             <div className="overflow-x-auto bortder rounded-sm">
               <table className="min-w-full bg-white rounded-lg shadow-md">
                 <thead>
