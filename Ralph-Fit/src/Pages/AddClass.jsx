@@ -235,7 +235,7 @@ const AddClass = () => {
               }}
             />
           </div>
-
+          <div className=" md:col-span-8"></div>
           {/* Class Details and Users */}
           {selectedClassDetails && (
             <div className="col-span-1 md:col-span-4 bg-white rounded-lg shadow-md p-6">
