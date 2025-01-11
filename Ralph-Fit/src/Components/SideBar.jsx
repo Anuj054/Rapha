@@ -103,6 +103,23 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <span>Subscriptions</span>
           </li>
         </Link>
+        <Link
+          to="/dashboard/feedback"
+          style={{ textDecoration: "none" }}
+          className="text-white"
+          onClick={handleLinkClick} // Close the sidebar on click (mobile)
+        >
+          <li
+            className={`flex items-center p-3 cursor-pointer transition-colors duration-100 hover:bg-[#45413c] rounded-md ${
+              location.pathname === "/dashboard/feedback" ? "bg-[#45413c]" : ""
+            }`}
+          >
+            <div className="p-2">
+              <img src={sub} alt="Subscriptions" />
+            </div>
+            <span>Feedback and Reviews</span>
+          </li>
+        </Link>
       </ul>
       <hr />
 

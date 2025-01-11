@@ -118,7 +118,9 @@ const AddClass = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Add Class Form */}
           <div className="col-span-1 md:col-span-8">
-            <h2 className="mb-2 text-lg font-semibold">Add Class</h2>
+            <h2 className="mb-2 text-2xl font-semibold text-gray-700">
+              Add Class
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
@@ -178,7 +180,7 @@ const AddClass = () => {
 
           {/* Calendar Section */}
           <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
-            <h2 className="text-lg font-semibold mb-2">Calendar</h2>
+            <h2 className="text-xl font-semibold mb-2">Calendar</h2>
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
