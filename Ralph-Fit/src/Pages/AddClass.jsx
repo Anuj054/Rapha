@@ -16,7 +16,8 @@ const AddClass = () => {
   const [classes, setClasses] = useState([]);
   const [selectedClassDetails, setSelectedClassDetails] = useState(null);
   const [users, setUsers] = useState([]);
-  const [events, setEvents] = useState([]); // Added events state
+  const [events, setEvents] = useState([]);
+  const [attendance, setAttendance] = useState({});
 
   const fetchClasses = async () => {
     try {
@@ -26,7 +27,6 @@ const AddClass = () => {
       if (response.ok) {
         const data = await response.json();
         setClasses(data);
-        // Update events when classes are fetched
         const newEvents = data.map((cls) => ({
           title: cls.className,
           start: cls.date,
@@ -49,6 +49,11 @@ const AddClass = () => {
       if (response.ok) {
         const data = await response.json();
         setUsers(data.users);
+        const userAttendance = data.users.reduce((acc, user) => {
+          acc[user.userId] = user.attendanceStatus || ""; // Assuming 'attendanceStatus' is the field for status
+          return acc;
+        }, {});
+        setAttendance(userAttendance);
       } else {
         console.error("Failed to fetch users for the class");
         setUsers([]);
@@ -94,7 +99,7 @@ const AddClass = () => {
           date: "",
           time: "",
         });
-        fetchClasses(); // This will update both classes and events
+        fetchClasses();
       } else {
         const errorData = await response.json();
         alert(`Error adding class: ${errorData.message}`);
@@ -111,16 +116,52 @@ const AddClass = () => {
     fetchUsersByClassId(selectedClass._id);
   };
 
+  const handleClassClick = (classData) => {
+    setSelectedClassDetails(classData);
+    fetchUsersByClassId(classData._id);
+  };
+
+  const handleAttendance = async (userId, status) => {
+    try {
+      setAttendance((prev) => ({
+        ...prev,
+        [userId]: status,
+      }));
+
+      const response = await fetch(
+        `https://web-ai-gym-project.vercel.app/api/class-booking/attendance/${userId}/${selectedClassDetails._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Attendance updated successfully");
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating attendance:", errorData);
+        alert(`Error updating attendance: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error updating attendance:", error);
+      alert("An error occurred while updating attendance. Please try again.");
+    }
+  };
+
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col p-5">
+      <div className="flex-1 flex flex-col p-5 overflow-y-auto bg-gray-50">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Add Class Form */}
           <div className="col-span-1 md:col-span-8">
-            <h2 className="mb-2 text-2xl font-semibold text-gray-700">
-              Add Class
-            </h2>
+            <h2 className="mb-2 text-lg font-semibold">Add Class</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input
                 type="text"
@@ -128,7 +169,7 @@ const AddClass = () => {
                 value={formData.trainerName}
                 onChange={handleInputChange}
                 placeholder="Trainer Name"
-                className="mb-2 p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <input
                 type="text"
@@ -136,7 +177,7 @@ const AddClass = () => {
                 value={formData.className}
                 onChange={handleInputChange}
                 placeholder="Class Name"
-                className="mb-2 p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
             <textarea
@@ -144,34 +185,34 @@ const AddClass = () => {
               value={formData.classDetails}
               onChange={handleInputChange}
               placeholder="Class Details"
-              className="mb-2 p-2 border border-gray-300 rounded-md w-full"
+              className="mt-4 p-2 border border-gray-300 rounded-md w-full h-32 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
               <input
                 type="number"
                 name="slots"
                 value={formData.slots}
                 onChange={handleInputChange}
                 placeholder="Slots"
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <input
                 type="date"
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <input
                 type="time"
                 name="time"
                 value={formData.time}
                 onChange={handleInputChange}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
             </div>
             <button
-              className="mt-2 p-2 bg-purple-600 text-white rounded-md hover:bg-purple-700"
+              className="mt-6 px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors duration-200"
               onClick={handleAddClass}
             >
               Add Class
@@ -180,7 +221,7 @@ const AddClass = () => {
 
           {/* Calendar Section */}
           <div className="col-span-1 md:col-span-4 border border-gray-300 rounded-md shadow-md p-4">
-            <h2 className="text-xl font-semibold mb-2">Calendar</h2>
+            <h2 className="text-lg font-semibold mb-2">Calendar</h2>
             <FullCalendar
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
@@ -197,51 +238,74 @@ const AddClass = () => {
           <div className=" md:col-span-8"></div>
           {/* Class Details and Users */}
           {selectedClassDetails && (
-            <div className="col-span-1 md:col-span-4 mt-5 p-4 border border-gray-300 rounded-md">
-              {/* First row: Date and Time */}
-              <div className="border-b pb-3 mb-3">
-                <div className="text-xl font-semibold">
-                  {new Date(selectedClassDetails.date).toLocaleDateString(
-                    "en-US",
-                    {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
+            <div className="col-span-1 md:col-span-4 bg-white rounded-lg shadow-md p-6">
+              <div className="border-b pb-4 mb-4">
+                <div className="text-2xl font-semibold">
+                  {new Date(selectedClassDetails.date).toLocaleDateString("en-US", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </div>
-                <div className="text-gray-600 mt-1">
+                <div className="text-gray-600 mt-2">
                   Time: {selectedClassDetails.time}
                 </div>
               </div>
 
-              {/* Second row: Class and Trainer Info */}
-              <div className="border-b pb-3 mb-3">
-                <div className="text-xl font-semibold">
+              <div className="border-b pb-4 mb-4">
+                <div className="text-2xl font-semibold">
                   {selectedClassDetails.className}
                 </div>
-                <div className="text-gray-600">
+                <div className="text-gray-600 mt-2">
                   Trainer: {selectedClassDetails.trainerName}
                 </div>
               </div>
 
-              {/* Users Section */}
               <div>
-                <h3 className="text-lg font-semibold mb-3">Class Members</h3>
+                <div className="grid grid-cols-4 gap-7 mb-4 font-semibold text-gray-700">
+                  <div>Name</div>
+                  <div className="col-span-2 text-center">Attendance</div>
+                  <div className="text-right">Contact</div>
+                </div>
                 <div className="space-y-3">
                   {users.length > 0 ? (
                     users.map((user) => (
                       <div
                         key={user.userId}
-                        className="flex justify-between items-center bg-gray-50 p-3 rounded-lg border border-gray-200"
+                        className="grid grid-cols-4 gap-4 items-center bg-gray-50 p-4 rounded-lg border border-gray-200"
+                        style={{ gridTemplateColumns: "2fr 3fr 3fr" }}
                       >
                         <div className="font-medium">{user.name}</div>
-                        <div className="text-gray-600">{user.phone}</div>
+                        <div className="col-span-1 flex justify-center gap-2">
+                          <button
+                            onClick={() => handleAttendance(user.userId, "present")}
+                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 ${
+                              attendance[user.userId] === "present"
+                                ? "bg-green-600 text-white"
+                                : "bg-gray-200 text-gray-700 hover:bg-green-100"
+                            }`}
+                          >
+                            Present
+                          </button>
+                          <button
+                            onClick={() => handleAttendance(user.userId, "absent")}
+                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 ${
+                              attendance[user.userId] === "absent"
+                                ? "bg-red-600 text-white"
+                                : "bg-gray-200 text-gray-700 hover:bg-red-100"
+                            }`}
+                          >
+                            Absent
+                          </button>
+                        </div>
+                        <div className="text-gray-600 text-right" style={{ textOverflow: "ellipsis" }}>
+                          {user.phone}
+                        </div>
                       </div>
                     ))
                   ) : (
-                    <div className="text-gray-500 text-center py-3">
+                    <div className="text-gray-500 text-center py-6">
                       No members enrolled in this class yet
                     </div>
                   )}
@@ -251,25 +315,24 @@ const AddClass = () => {
           )}
 
           {/* Classes List */}
-          <div className="col-span-4 md:col-span-12 sm:col-span-8 border border-gray-300 rounded-md shadow-md p-4">
-            <h2 className="text-lg font-semibold mb-2">Classes</h2>
-            <div className="flex gap-4 overflow-x-auto">
+          <div className="col-span-4 md:col-span-12 bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-2xl font-semibold mb-4">Classes</h2>
+            <div className="flex gap-4 overflow-x-auto pb-4">
               {classes.map((cls) => (
                 <div
                   key={cls._id}
-                  className="flex-shrink-0 bg-gray-100 border rounded-md p-4 w-full md:w-80 shadow-md"
+                  className="flex-shrink-0 bg-gray-50 border rounded-lg p-6 w-full md:w-80 cursor-pointer hover:bg-gray-100 transition-colors duration-200"
+                  onClick={() => handleClassClick(cls)}
                 >
-                  <h3 className="font-bold text-lg mb-1">{cls.className}</h3>
-                  <p className="text-sm text-gray-600">
-                    Trainer: {cls.trainerName}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Details: {cls.classDetails}
-                  </p>
-                  <p className="text-sm text-gray-600">Slots: {cls.slots}</p>
-                  <p className="text-sm text-gray-600">
-                    Date: {new Date(cls.date).toLocaleDateString()} | Time:{" "}
-                    {cls.time}
+                  <h3 className="font-bold text-lg mb-2">{cls.className}</h3>
+                  <p className="text-gray-600">{cls.classDetails}</p>
+                  <p className="mt-4 text-sm text-gray-400">
+                    {new Date(cls.date).toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                    , {cls.time}
                   </p>
                 </div>
               ))}
