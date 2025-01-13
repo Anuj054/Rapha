@@ -32,24 +32,27 @@ const Subscription = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Add payment status to form data
     const data = { ...formData, paymentStatus };
-  
+
     try {
-      const response = await fetch("https://web-ai-gym-project.vercel.app/api/membership/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-  
+      const response = await fetch(
+        "https://web-ai-gym-project.vercel.app/api/membership/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
       const result = await response.json();
-  
+
       // Log the response to the console
       console.log(result);
-  
+
       if (response.ok) {
         alert("Membership created successfully");
         // You can redirect or reset the form here
@@ -110,19 +113,22 @@ const Subscription = () => {
                 />
               </div>
             </div>
-
             <div className="flex flex-wrap gap-5 justify-between">
               <div className="flex flex-col w-full sm:w-80">
-                <label className="text-sm text-gray-600 mb-1">Membership Name*</label>
-                <input
-                  type="text"
-                  placeholder="Enter membership name"
-                  className="px-4 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-purple-600 w-full"
+                <label className="text-sm text-gray-600 mb-1">
+                  Membership Name*
+                </label>
+                <select
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none text-gray-600 focus:border-purple-600 w-full"
                   name="membershipName"
                   value={formData.membershipName}
                   onChange={handleInputChange}
                   required
-                />
+                >
+                  <option value="Gold Membership">Gold Membership</option>
+                  <option value="Silver Membership">Silver Membership</option>
+                  <option value="Bronze Membership">Bronze Membership</option>
+                </select>
               </div>
 
               <div className="flex flex-col w-full sm:w-80">
@@ -182,7 +188,9 @@ const Subscription = () => {
               </div>
 
               <div className="flex flex-col w-full sm:w-80">
-                <label className="text-sm text-gray-600 mb-1">Training Slot</label>
+                <label className="text-sm text-gray-600 mb-1">
+                  Training Slot
+                </label>
                 <input
                   type="text"
                   placeholder="Enter training slot"
@@ -219,10 +227,16 @@ const Subscription = () => {
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center mt-5">
-              <button type="button" className="px-5 py-2 text-sm bg-white border border-purple-600 rounded-md hover:bg-gray-100">
+              <button
+                type="button"
+                className="px-5 py-2 text-sm bg-white border border-purple-600 rounded-md hover:bg-gray-100"
+              >
                 Renew
               </button>
-              <button type="submit" className="px-5 py-2 text-sm bg-purple-600 text-white rounded-md">
+              <button
+                type="submit"
+                className="px-5 py-2 text-sm bg-purple-600 text-white rounded-md"
+              >
                 Complete
               </button>
             </div>
