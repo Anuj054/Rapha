@@ -41,9 +41,8 @@ const Profile = () => {
 
   return (
     <div className="flex h-screen flex-col lg:flex-row">
-      <div className="w-full lg:w-60">
-        <Sidebar />
-      </div>
+      <Sidebar />
+
       <div className="flex-1 flex flex-col p-4 lg:p-8">
         <div className="mt-6 ml-6">
           <h1 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
