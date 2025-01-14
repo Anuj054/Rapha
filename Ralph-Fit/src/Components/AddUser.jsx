@@ -125,7 +125,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10 overflow-auto">
       <div className="bg-white w-[80%] max-w-4xl rounded-lg p-6 shadow-lg relative">
         <div className="flex justify-between items-center border-b pb-2">
           <h2 className="text-xl font-semibold text-gray-800">Add User</h2>

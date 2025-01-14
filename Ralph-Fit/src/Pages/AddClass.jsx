@@ -157,14 +157,14 @@ const AddClass = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col p-5 overflow-y-auto bg-gray-50">
+      <div className="flex-1 flex flex-col p-5 overflow-auto bg-gray-50  ">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-5">
           {/* Add Class Form */}
           <div className="col-span-1 md:col-span-8 pt-3">
             <h2 className="mb-2 text-2xl font-semibold text-gray-600 pb-3 ">
               Add Class
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
               <input
                 type="text"
                 name="trainerName"
