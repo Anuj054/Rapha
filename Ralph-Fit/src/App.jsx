@@ -10,6 +10,7 @@ import Notification from "./Pages/Notification";
 import Profile from "./Components/Profile";
 import NavBar from "./Components/NavBar"; // Import the NavBar component
 import Sidebar from "./Components/SideBar"; // Import the Sidebar component
+import Feedback from "./Pages/Feedback";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -50,6 +51,7 @@ function App() {
           <Route path="/dashboard/classes" element={<Notification />} />
 
           <Route path="/profile" element={<Profile />} />
+          <Route path="/dashboard/feedback" element={<Feedback />} />
         </Routes>
       </div>
     </Router>

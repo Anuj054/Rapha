@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../Components/SideBar";
 
 const Subscription = () => {
@@ -14,7 +14,7 @@ const Subscription = () => {
     trainingSlot: "",
     paymentStatus: "",
     sessions: 0,
-    users: []
+    users: [],
   });
   const [userOptions, setUserOptions] = useState([]);
 
@@ -26,7 +26,9 @@ const Subscription = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await fetch("https://web-ai-gym-project.vercel.app/api/users/getAll");
+      const response = await fetch(
+        "https://web-ai-gym-project.vercel.app/api/users/getAll"
+      );
       if (!response.ok) throw new Error("Failed to fetch users");
       const data = await response.json();
       setUserOptions(data);
@@ -42,24 +44,27 @@ const Subscription = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'sessions' ? parseInt(value) || 0 : value,
+      [name]: name === "sessions" ? parseInt(value) || 0 : value,
     }));
   };
 
   const handleUserSelection = (e) => {
     const selectedUsername = e.target.value;
-    if (selectedUsername && !formData.users.some(user => user.username === selectedUsername)) {
-      setFormData(prev => ({
+    if (
+      selectedUsername &&
+      !formData.users.some((user) => user.username === selectedUsername)
+    ) {
+      setFormData((prev) => ({
         ...prev,
-        users: [...prev.users, { username: selectedUsername }]
+        users: [...prev.users, { username: selectedUsername }],
       }));
     }
   };
 
   const removeUser = (username) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      users: prev.users.filter(user => user.username !== username)
+      users: prev.users.filter((user) => user.username !== username),
     }));
   };
 
@@ -72,7 +77,12 @@ const Subscription = () => {
     setLoading(true);
     setError("");
 
-    if (!formData.membershipName || !formData.startDate || !formData.endDate || formData.users.length === 0) {
+    if (
+      !formData.membershipName ||
+      !formData.startDate ||
+      !formData.endDate ||
+      formData.users.length === 0
+    ) {
       setError("Please fill in all required fields and select at least one user");
       setLoading(false);
       return;
@@ -81,17 +91,20 @@ const Subscription = () => {
     const membershipData = {
       ...formData,
       startDate: formatDateToISO(formData.startDate),
-      endDate: formatDateToISO(formData.endDate)
+      endDate: formatDateToISO(formData.endDate),
     };
 
     try {
-      const response = await fetch("https://web-ai-gym-project.vercel.app/api/membership/add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(membershipData),
-      });
+      const response = await fetch(
+        "https://web-ai-gym-project.vercel.app/api/membership/add",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(membershipData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -100,7 +113,7 @@ const Subscription = () => {
 
       const result = await response.json();
       alert("Membership created successfully!");
-      
+
       // Reset form
       setFormData({
         membershipName: "",
@@ -112,7 +125,7 @@ const Subscription = () => {
         trainingSlot: "",
         paymentStatus: "",
         sessions: 0,
-        users: []
+        users: [],
       });
     } catch (err) {
       console.error("Error:", err);
@@ -156,7 +169,9 @@ const Subscription = () => {
                 </select>
 
                 <div className="mt-4 p-4 bg-gray-100 rounded border">
-                  <h3 className="text-sm font-semibold text-gray-700 mb-2">Selected Users:</h3>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                    Selected Users:
+                  </h3>
                   <div className="grid grid-cols-3 gap-2 text-xs text-gray-600">
                     {formData.users.map((user) => (
                       <div
@@ -182,14 +197,18 @@ const Subscription = () => {
 
               <div>
                 <label className="block text-gray-700 mb-2">Membership Name *</label>
-                <input
-                  type="text"
+                <select
                   name="membershipName"
                   value={formData.membershipName}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded"
                   required
-                />
+                >
+                  <option value="">Select Membership</option>
+                  <option value="Gold Membership">Gold Membership</option>
+                  <option value="Silver Membership">Silver Membership</option>
+                  <option value="Bronze Membership">Bronze Membership</option>
+                </select>
               </div>
 
               <div>

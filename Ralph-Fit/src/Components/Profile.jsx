@@ -47,7 +47,7 @@ const Profile = () => {
       <div className="flex-1 flex flex-col p-4 lg:p-8">
         <div className="mt-6 ml-6">
           <h1 className="text-2xl font-semibold mt-4 text-start ml-4 mb-4 text-gray-600">
-            General Settings
+            Profile
           </h1>
         </div>
         <div className="flex m-3 h-full border rounded-lg justify-items-center">

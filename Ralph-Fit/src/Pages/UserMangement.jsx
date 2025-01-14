@@ -113,7 +113,7 @@ const UserManagement = () => {
                       <th className="p-3 text-sm text-left">Name</th>
                       <th className="p-3 text-sm text-left">Email address</th>
                       <th className="p-3 text-sm text-left">Package</th>
-                      <th className="p-3 text-sm text-left">Class</th>
+                      <th className="p-3 text-sm text-left">Session</th>
                       <th className="p-3 text-sm text-left">Number</th>
                       <th className="p-3 text-sm text-left">Gender</th>
                       <th className="p-3 text-sm text-left">More Details</th>

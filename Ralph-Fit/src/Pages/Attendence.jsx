@@ -54,7 +54,7 @@ const Attendance = () => {
       const monthIndex = new Date(`${month} 1, 2024`).getMonth();
       const firstDayOfMonth = new Date(2024, monthIndex, 1);
       const lastDayOfMonth = new Date(2024, monthIndex + 1, 0).getDate();
-      
+
       const firstDayOfWeek = new Date(
         firstDayOfMonth.setDate((week - 1) * 7 + 1)
       );
@@ -64,14 +64,20 @@ const Attendance = () => {
         .map((_, index) => {
           const date = new Date(firstDayOfWeek);
           date.setDate(firstDayOfWeek.getDate() + index);
-          
+
           // Check if the date is within the current month
-          if (date.getMonth() === monthIndex && date.getDate() <= lastDayOfMonth) {
-            return date.toLocaleDateString("en-US", { day: "numeric", month: "short" });
+          if (
+            date.getMonth() === monthIndex &&
+            date.getDate() <= lastDayOfMonth
+          ) {
+            return date.toLocaleDateString("en-US", {
+              day: "numeric",
+              month: "short",
+            });
           }
           return null;
         })
-        .filter(date => date !== null); // Remove null dates that fall outside the month
+        .filter((date) => date !== null); // Remove null dates that fall outside the month
 
       return dates;
     };
@@ -186,7 +192,9 @@ const Attendance = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col bg-gray-100">
         <div className="p-4 bg-white border-b shadow-sm flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-gray-700">User Attendance</h2>
+          <h2 className="text-2xl font-semibold text-gray-600">
+            User Attendance
+          </h2>
           <div className="flex space-x-4">
             <select
               className="border rounded-md px-3 py-1 text-gray-600 bg-gray-50"
@@ -232,19 +240,26 @@ const Attendance = () => {
             className="grid gap-4"
             style={{
               display: "grid",
-              gridTemplateColumns: `repeat(${weekDates.length + 1}, minmax(100px, 1fr))`,
+              gridTemplateColumns: `repeat(${
+                weekDates.length + 1
+              }, minmax(100px, 1fr))`,
               textAlign: "center",
             }}
           >
             <div className="font-semibold px-4 py-2 text-gray-600">Name</div>
             {weekDates.map((date, index) => (
-              <div key={index} className="font-semibold px-4 py-2 text-gray-600">
+              <div
+                key={index}
+                className="font-semibold px-4 py-2 text-gray-600"
+              >
                 {date}
               </div>
             ))}
             {attendanceData.map((user, userIndex) => (
               <React.Fragment key={user.userId}>
-                <div className="p-2 text-gray-700 font-medium">{user.userName}</div>
+                <div className="p-2 text-gray-700 font-medium">
+                  {user.userName}
+                </div>
                 {user.attendance.map((status, dayIndex) => (
                   <div key={dayIndex} className="p-2">
                     <div

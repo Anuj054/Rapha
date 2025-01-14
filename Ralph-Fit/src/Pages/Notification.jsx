@@ -13,7 +13,9 @@ const Notifications = () => {
       <div className="flex-1 flex flex-col">
         {/* Page Content */}
         <div className=" h-screen p-4">
-          <h1 className="text-2xl  mb-6">ADD Notifications</h1>
+          <h1 className="text-2xl font-semibold text-gray-600  mb-6">
+            ADD Notifications
+          </h1>
 
           {/* New Notification Section */}
           <div className="bg-[#F9F3FF] rounded-lg p-4 mb-6 ">
