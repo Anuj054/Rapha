@@ -240,7 +240,7 @@ const AddClass = () => {
           <div className=" md:col-span-8"></div>
           {/* Class Details and Users */}
           {selectedClassDetails && (
-            <div className="col-span-1 md:col-span-4 bg-white rounded-lg shadow-md p-6">
+            <div className="col-span-1 md:col-span-12 sm:col-span-4 bg-white rounded-lg shadow-md p-6">
               <div className="border-b pb-4 mb-4">
                 <div className="text-2xl font-semibold">
                   {new Date(selectedClassDetails.date).toLocaleDateString(
@@ -268,9 +268,9 @@ const AddClass = () => {
               </div>
 
               <div>
-                <div className="grid grid-cols-4 gap-7 mb-4 font-semibold text-gray-700">
-                  <div>Name</div>
-                  <div className="col-span-2 text-center">Attendance</div>
+                <div className="grid grid-cols-3 gap-5 mb-4 font-semibold text-gray-700">
+                  <div className="text-left">Name</div>
+                  <div className=" text-center">Attendance</div>
                   <div className="text-right">Contact</div>
                 </div>
                 <div className="space-y-3">
@@ -278,16 +278,16 @@ const AddClass = () => {
                     users.map((user) => (
                       <div
                         key={user.userId}
-                        className="grid grid-cols-4 gap-4 items-center bg-gray-50 p-4 rounded-lg border border-gray-200"
+                        className="grid grid-cols-3 gap-4  items-center bg-gray-50 p-4 rounded-lg border border-gray-200"
                         style={{ gridTemplateColumns: "2fr 3fr 3fr" }}
                       >
-                        <div className="font-medium">{user.name}</div>
-                        <div className="col-span-1 flex justify-center gap-2">
+                        <div className="  font-medium">{user.name}</div>
+                        <div className=" flex justify-center gap-2">
                           <button
                             onClick={() =>
                               handleAttendance(user.userId, "present")
                             }
-                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 ${
+                            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-colors duration-200  ${
                               attendance[user.userId] === "present"
                                 ? "bg-green-600 text-white"
                                 : "bg-gray-200 text-gray-700 hover:bg-green-100"
@@ -309,7 +309,7 @@ const AddClass = () => {
                           </button>
                         </div>
                         <div
-                          className="text-gray-600 text-right"
+                          className=" text-gray-600 text-right"
                           style={{ textOverflow: "ellipsis" }}
                         >
                           {user.phone}
