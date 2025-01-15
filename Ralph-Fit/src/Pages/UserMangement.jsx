@@ -73,7 +73,7 @@ const UserManagement = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col overflow-auto">
         <div className="p-5">
           <div className="flex flex-col gap-2 justify-between mb-5">
             <div className="flex justify-end">
@@ -92,59 +92,62 @@ const UserManagement = () => {
               onChange={handleSearchChange} // Handle input change
             />
           </div>
+          <div className=" overflow-auto">
+            {/* Show error message */}
+            {error && (
+              <div className="text-center text-red-500">Error: {error}</div>
+            )}
 
-          {/* Show error message */}
-          {error && (
-            <div className="text-center text-red-500">Error: {error}</div>
-          )}
-
-          {/* Show loading state */}
-          {loading ? (
-            <div className="text-center text-gray-600">Loading users...</div>
-          ) : (
-            <>
-              {/* Check if users are available */}
-              {filteredUsers.length === 0 ? (
-                <div className="text-center text-gray-600">No users found.</div>
-              ) : (
-                <table className="min-w-full border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="p-3 text-sm text-left">Name</th>
-                      <th className="p-3 text-sm text-left">Email address</th>
-                      <th className="p-3 text-sm text-left">Package</th>
-                      <th className="p-3 text-sm text-left">Session</th>
-                      <th className="p-3 text-sm text-left">Number</th>
-                      <th className="p-3 text-sm text-left">Gender</th>
-                      <th className="p-3 text-sm text-left">More Details</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentUsers.map((user, index) => (
-                      <tr key={index}>
-                        <td className="p-3 flex flex-row">
-                          <span className=" text-sm">{user.name}</span>
-                        </td>
-                        <td className="p-3 pt-1 text-sm">{user.email}</td>
-                        <td className="p-3 pt-1 text-sm">{user.package}</td>
-                        <td className="p-3 pt-1 text-sm">{user.class}</td>
-                        <td className="p-3 pt-1 text-sm">{user.phone}</td>
-                        <td className="p-3 pt-1 text-sm">{user.gender}</td>
-                        <td className="p-3 pt-1 text-sm">
-                          <button
-                            onClick={() => toggleModal(user._id)}
-                            className="bg-gray-100 px-4 py-2 border rounded-full hover:bg-gray-400"
-                          >
-                            ⟩
-                          </button>
-                        </td>
+            {/* Show loading state */}
+            {loading ? (
+              <div className="text-center text-gray-600">Loading users...</div>
+            ) : (
+              <>
+                {/* Check if users are available */}
+                {filteredUsers.length === 0 ? (
+                  <div className="text-center text-gray-600">
+                    No users found.
+                  </div>
+                ) : (
+                  <table className="min-w-full border-collapse ">
+                    <thead>
+                      <tr>
+                        <th className="p-3 text-sm text-left">Name</th>
+                        <th className="p-3 text-sm text-left">Email address</th>
+                        <th className="p-3 text-sm text-left">Package</th>
+                        <th className="p-3 text-sm text-left">Session</th>
+                        <th className="p-3 text-sm text-left">Number</th>
+                        <th className="p-3 text-sm text-left">Gender</th>
+                        <th className="p-3 text-sm text-left">More Details</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </>
-          )}
+                    </thead>
+                    <tbody>
+                      {currentUsers.map((user, index) => (
+                        <tr key={index}>
+                          <td className="p-3 flex flex-row">
+                            <span className=" text-sm">{user.name}</span>
+                          </td>
+                          <td className="p-3 pt-1 text-sm">{user.email}</td>
+                          <td className="p-3 pt-1 text-sm">{user.package}</td>
+                          <td className="p-3 pt-1 text-sm">{user.class}</td>
+                          <td className="p-3 pt-1 text-sm">{user.phone}</td>
+                          <td className="p-3 pt-1 text-sm">{user.gender}</td>
+                          <td className="p-3 pt-1 text-sm">
+                            <button
+                              onClick={() => toggleModal(user._id)}
+                              className="bg-gray-100 px-4 py-2 border rounded-full hover:bg-gray-400"
+                            >
+                              ⟩
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </>
+            )}
+          </div>
 
           {/* Pagination (if applicable) */}
           <div className="flex justify-center items-center mt-4">

@@ -87,7 +87,9 @@ const Subscription = () => {
       !formData.endDate ||
       formData.users.length === 0
     ) {
-      setError("Please fill in all required fields and select at least one user");
+      setError(
+        "Please fill in all required fields and select at least one user"
+      );
       setLoading(false);
       return;
     }
@@ -145,9 +147,10 @@ const Subscription = () => {
     <div className="flex h-screen bg-gray-100">
       <Sidebar />
       <div className="flex-1 p-8 overflow-auto">
+        <h1 className="text-2xl font-bold text-gray-600 mb-6">
+          Create Membership
+        </h1>
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
-          <h1 className="text-2xl font-bold text-gray-800 mb-6">Create Membership</h1>
-
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
               {error}
@@ -205,7 +208,9 @@ const Subscription = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Membership Name *</label>
+                <label className="block text-gray-700 mb-2">
+                  Membership Name *
+                </label>
                 <select
                   name="membershipName"
                   value={formData.membershipName}
@@ -221,7 +226,9 @@ const Subscription = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Number of Sessions</label>
+                <label className="block text-gray-700 mb-2">
+                  Number of Sessions
+                </label>
                 <input
                   type="number"
                   name="sessions"
@@ -248,7 +255,9 @@ const Subscription = () => {
               ))}
 
               <div>
-                <label className="block text-gray-700 mb-2">Payment Status *</label>
+                <label className="block text-gray-700 mb-2">
+                  Payment Status *
+                </label>
                 <select
                   name="paymentStatus"
                   value={formData.paymentStatus}
@@ -287,18 +296,18 @@ const Subscription = () => {
               </div>
             </div>
 
-            <div className="flex justify-end space-x-4">
+            <div className="flex justify-center space-x-4">
               <button
                 type="button"
                 onClick={() => window.location.reload()}
                 className="px-6 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
               >
-                Reset
+                Renew
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-300"
+                className="px-6 py-2 bg-[#8920FE] text-white rounded-md focus:ring-[#8920FE] "
               >
                 {loading ? "Creating..." : "Create Membership"}
               </button>

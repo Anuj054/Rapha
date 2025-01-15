@@ -190,7 +190,7 @@ const Attendance = () => {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <div className="flex-1 flex flex-col bg-gray-100">
+      <div className="flex-1 flex flex-col bg-gray-100 overflow-x-auto">
         <div className="p-4 bg-white border-b shadow-sm flex items-center justify-between">
           <h2 className="text-2xl font-semibold text-gray-600">
             User Attendance
