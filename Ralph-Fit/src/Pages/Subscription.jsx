@@ -14,31 +14,32 @@ const Subscription = () => {
     trainingSlot: "",
     paymentStatus: "",
     sessions: 0,
-    users: [],
+    users: [], // Array of objects with { userId, username }
   });
   const [userOptions, setUserOptions] = useState([]);
 
   useEffect(() => {
     fetchUsers();
   }, []);
-
   const fetchUsers = async () => {
-    setLoading(true);
-    setError("");
     try {
-      const response = await fetch(
-        "https://web-ai-gym-project.vercel.app/api/users/getAll"
-      );
-      if (!response.ok) throw new Error("Failed to fetch users");
-      const data = await response.json();
-      setUserOptions(data);
+        const response = await fetch("https://web-ai-gym-project.vercel.app/api/users/names-and-ids");
+        if (!response.ok) throw new Error("Failed to fetch users");
+        const users = await response.json();
+
+        // Format users to include the name
+        const formattedUsers = users.map((user) => ({
+            _id: user._id,
+            username: user.name || "N/A", // Use name if username is missing
+        }));
+
+        setUserOptions(formattedUsers);
     } catch (err) {
-      setError("Failed to load users. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+        console.error("Error fetching users:", err);
     }
-  };
+};
+
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,22 +50,24 @@ const Subscription = () => {
   };
 
   const handleUserSelection = (e) => {
-    const selectedUsername = e.target.value;
-    if (
-      selectedUsername &&
-      !formData.users.some((user) => user.username === selectedUsername)
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        users: [...prev.users, { username: selectedUsername }],
-      }));
+    const userId = e.target.value;
+    const selectedUser = userOptions.find((user) => user._id === userId);
+  
+    if (selectedUser && !formData.users.some((user) => user.userId === userId)) {
+      setFormData({
+        ...formData,
+        users: [...formData.users, { userId: userId, username: selectedUser.username }],
+      });
+    } else {
+      console.error("Selected user not found or already added.");
     }
   };
+  
 
-  const removeUser = (username) => {
+  const removeUser = (userId) => {
     setFormData((prev) => ({
       ...prev,
-      users: prev.users.filter((user) => user.username !== username),
+      users: prev.users.filter((user) => user.userId !== userId),
     }));
   };
 
@@ -76,7 +79,8 @@ const Subscription = () => {
     e.preventDefault();
     setLoading(true);
     setError("");
-
+    console.log("Form Data before submission:", formData);
+  
     if (
       !formData.membershipName ||
       !formData.startDate ||
@@ -89,13 +93,15 @@ const Subscription = () => {
       setLoading(false);
       return;
     }
-
+  
     const membershipData = {
       ...formData,
       startDate: formatDateToISO(formData.startDate),
       endDate: formatDateToISO(formData.endDate),
     };
-
+  
+    console.log("Membership Data:", membershipData); // Debug payload
+  
     try {
       const response = await fetch(
         "https://web-ai-gym-project.vercel.app/api/membership/add",
@@ -107,16 +113,15 @@ const Subscription = () => {
           body: JSON.stringify(membershipData),
         }
       );
-
+  
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to create membership");
       }
-
+  
       const result = await response.json();
       alert("Membership created successfully!");
-
-      // Reset form
+  
       setFormData({
         membershipName: "",
         startDate: "",
@@ -136,6 +141,7 @@ const Subscription = () => {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -158,45 +164,46 @@ const Subscription = () => {
                   Select Users <span className="text-red-500">*</span>
                 </label>
                 <select
-                  value=""
-                  onChange={handleUserSelection}
-                  className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  disabled={loading}
-                >
-                  <option value="">Select a user</option>
-                  {userOptions.map((user) => (
-                    <option key={user._id} value={user.username}>
-                      {user.name} ({user.email})
-                    </option>
-                  ))}
-                </select>
+    value=""
+    onChange={handleUserSelection}
+    className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+    disabled={loading}
+>
+    <option value="">Select a user</option>
+    {userOptions.map((user) => (
+        <option key={user._id} value={user._id}>
+            {user.username} {/* Using `username` here as it's now formatted to show the name */}
+        </option>
+    ))}
+</select>
+
+
 
                 <div className="mt-4 p-4 bg-gray-100 rounded border">
                   <h3 className="text-sm font-semibold text-gray-700 mb-2">
                     Selected Users:
                   </h3>
                   <div className="grid grid-cols-3 gap-2 text-xs text-gray-600">
-                    {formData.users.map((user) => (
-                      <div
-                        key={user.username}
-                        className="flex items-center justify-between bg-white p-1 border rounded"
-                      >
-                        <span>{user.username}</span>
-                        <button
-                          type="button"
-                          onClick={() => removeUser(user.username)}
-                          className="ml-2 text-red-500 hover:text-red-700"
-                        >
-                          X
-                        </button>
-                      </div>
-                    ))}
-                    {formData.users.length === 0 && (
-                      <p className="text-gray-400 col-span-3">
-                        No users selected
-                      </p>
-                    )}
-                  </div>
+  {formData.users.map((user) => (
+    <div
+      key={user.userId}
+      className="flex items-center justify-between bg-white p-1 border rounded"
+    >
+      <span>{user.username}</span>
+      <button
+        type="button"
+        onClick={() => removeUser(user.userId)}
+        className="ml-2 text-red-500 hover:text-red-700"
+      >
+        X
+      </button>
+    </div>
+  ))}
+  {formData.users.length === 0 && (
+    <p className="text-gray-400 col-span-3">No users selected</p>
+  )}
+</div>
+
                 </div>
               </div>
 
