@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { FaFire, FaRunning } from "react-icons/fa"; // Icons for session, trainer, etc.
+import { FaFire, FaRunning } from "react-icons/fa";
+
+// Get backend URL from environment variable
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const UpcomingClasses = () => {
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
-  const itemsPerPage = 3; // Number of classes per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 3;
 
   useEffect(() => {
     const fetchClasses = async () => {
       try {
         const response = await fetch(
-          "https://web-ai-gym-project.vercel.app/api/class/getAll"
+          `${BACKEND_URL}/api/class/getAll`
         );
         if (!response.ok) {
           throw new Error(`Error: ${response.statusText}`);
@@ -37,7 +40,6 @@ const UpcomingClasses = () => {
     return <p>Error fetching classes: {error}</p>;
   }
 
-  // Pagination logic
   const totalPages = Math.ceil(classes.length / itemsPerPage);
   const paginatedClasses = classes.slice(
     (currentPage - 1) * itemsPerPage,
@@ -58,21 +60,18 @@ const UpcomingClasses = () => {
       <div className="grid grid-cols-3 gap-4">
         {paginatedClasses.map((cls, index) => (
           <div
-            key={cls._id || index} // Use `_id` if available, fallback to index
+            key={cls._id || index}
             className="bg-white rounded-lg shadow-lg p-6 border-2 border-gray-200"
           >
-            {/* Class name */}
             <h3 className="text-lg text-purple-700 font-semibold mb-2">
               {cls.className}
             </h3>
 
-            {/* Date */}
             <div className="flex items-center text-gray-600 text-sm mb-2">
               <span className="text-green-500 mr-2">🗓️</span>
               <span>{new Date(cls.date).toLocaleDateString()}</span>
             </div>
 
-            {/* Session & Slots */}
             <div className="flex justify-between items-center mb-2">
               <div className="flex items-center text-sm">
                 <FaFire className="text-red-500 mr-1" />
@@ -84,7 +83,6 @@ const UpcomingClasses = () => {
               </div>
             </div>
 
-            {/* Trainer Info */}
             <div className="flex items-center text-sm text-gray-600">
               <FaRunning className="text-blue-500 mr-1" />
               <span>Trainer: {cls.trainerName}</span>
@@ -93,7 +91,6 @@ const UpcomingClasses = () => {
         ))}
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex justify-between mt-4">
         <button
           className="p-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"

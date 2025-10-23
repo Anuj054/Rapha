@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+// Get backend URL from environment variable
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const UserDetailModal = ({ isOpen, onClose, userId }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -11,7 +14,7 @@ const UserDetailModal = ({ isOpen, onClose, userId }) => {
         setLoading(true);
         setError(null);
         try {
-          const response = await fetch(`https://web-ai-gym-project.vercel.app/api/users/getById/${userId}`);
+          const response = await fetch(`${BACKEND_URL}/api/users/getById/${userId}`);
           if (!response.ok) {
             throw new Error("Failed to fetch user details");
           }

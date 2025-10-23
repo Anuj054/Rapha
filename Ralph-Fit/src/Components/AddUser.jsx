@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 
+// Get backend URL from environment variable
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
     name: "",
     class: "",
-    gender: "Female", // Default gender
+    gender: "Female",
     email: "",
     phone: "",
     password: "",
@@ -22,31 +25,28 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     bmr: "",
     bodyWater: "",
     bodyFat: "",
-    profilePhoto: "", // Added profile photo field
+    profilePhoto: "",
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Handle field value changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle file input and convert to Base64
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setFormData({ ...formData, profilePhoto: reader.result }); // Store Base64 string
+        setFormData({ ...formData, profilePhoto: reader.result });
       };
       reader.readAsDataURL(file);
     }
   };
 
-  // Add another user without closing the popup
   const handleAddAnother = () => {
     if (typeof onSubmit === "function") {
       onSubmit(formData);
@@ -57,7 +57,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
     setFormData({
       name: "",
       class: "",
-      gender: "Female", // Reset to default gender
+      gender: "Female",
       email: "",
       phone: "",
       password: "",
@@ -75,26 +75,24 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       bmr: "",
       bodyWater: "",
       bodyFat: "",
-      profilePhoto: "", // Reset profile photo
+      profilePhoto: "",
     });
   };
 
-  // Submit the form data to the server
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Ensure only valid fields are sent
       const dataToSend = { ...formData };
       if (!dataToSend.profilePhoto) {
-        delete dataToSend.profilePhoto; // Remove profilePhoto if empty
+        delete dataToSend.profilePhoto;
       }
 
-      console.log("Data being sent to API:", dataToSend); // Debug log
+      console.log("Data being sent to API:", dataToSend);
 
       const response = await fetch(
-        "https://web-ai-gym-project.vercel.app/api/users/create",
+        `${BACKEND_URL}/api/users/create`,
         {
           method: "POST",
           headers: {
@@ -105,7 +103,7 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
       );
 
       const result = await response.json();
-      console.log("API Response:", result); // Debug log
+      console.log("API Response:", result);
 
       if (response.ok) {
         onSubmit?.(formData);
@@ -134,7 +132,6 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
           </button>
         </div>
         <div className="mt-4">
-          {/* Manually Section */}
           <h3 className="text-lg font-medium mb-3 text-gray-700">Manually</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <input
@@ -145,7 +142,6 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
               onChange={handleChange}
               className="p-2 border border-gray-300 rounded-md text-sm"
             />
-            {/* Profile Photo */}
 
             <select
               name="gender"
@@ -199,7 +195,6 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
             />
           </div>
 
-          {/* Body Metrics Section */}
           <h3 className="text-lg font-medium mb-3 text-gray-700">
             Body Metrics
           </h3>
@@ -233,10 +228,8 @@ const AddUserPopup = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Error Message */}
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
-          {/* Action Buttons */}
           <div className="flex justify-end space-x-3 mt-4">
             <button
               className="flex items-center justify-center border-2 border-purple-600 text-purple-600 bg-white px-4 py-2 rounded-full hover:bg-purple-100 text-sm"

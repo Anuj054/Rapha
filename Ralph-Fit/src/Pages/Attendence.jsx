@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Components/SideBar";
 import axios from "axios";
 
+// Get backend URL from environment variable
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Attendance = () => {
   const [classes, setClasses] = useState([]);
   const [users, setUsers] = useState([]);
@@ -16,7 +19,7 @@ const Attendance = () => {
     const fetchClasses = async () => {
       try {
         const response = await axios.get(
-          "https://web-ai-gym-project.vercel.app/api/class/getAll"
+          `${BACKEND_URL}/api/class/getAll`
         );
         setClasses(response.data);
         if (response.data.length > 0) {
@@ -30,7 +33,7 @@ const Attendance = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://web-ai-gym-project.vercel.app/api/users/names-and-ids"
+          `${BACKEND_URL}/api/users/names-and-ids`
         );
         const initialAttendance = response.data.map((user) => ({
           userId: user._id,
@@ -77,7 +80,7 @@ const Attendance = () => {
           }
           return null;
         })
-        .filter((date) => date !== null); // Remove null dates that fall outside the month
+        .filter((date) => date !== null);
 
       return dates;
     };
@@ -91,14 +94,14 @@ const Attendance = () => {
     if (selectedClass && selectedMonth && selectedWeek) {
       const fetchAttendance = async () => {
         try {
-          const url = `https://web-ai-gym-project.vercel.app/api/attendance/${selectedClass}/week${selectedWeek}/${selectedMonth}`;
+          const url = `${BACKEND_URL}/api/attendance/${selectedClass}/week${selectedWeek}/${selectedMonth}`;
           const response = await axios.get(url);
 
           if (!response.data.data || response.data.data.length === 0) {
             const updatedAttendance = users.map((user) => ({
               userId: user._id,
               userName: user.name,
-              attendance: Array(weekDates.length).fill("Absent"), // Use weekDates.length instead of fixed 5
+              attendance: Array(weekDates.length).fill("Absent"),
             }));
             setAttendanceData(updatedAttendance);
           } else {
@@ -156,7 +159,7 @@ const Attendance = () => {
 
     try {
       await axios.post(
-        "https://web-ai-gym-project.vercel.app/api/attendance/markAttendance",
+        `${BACKEND_URL}/api/attendance/markAttendance`,
         attendancePayload
       );
     } catch (error) {
@@ -179,7 +182,7 @@ const Attendance = () => {
     "December",
   ];
 
-  const weeks = [1, 2, 3, 4, 5]; // Added week 5
+  const weeks = [1, 2, 3, 4, 5];
 
   const getStatusTextColor = (status) => {
     if (status === "Present") return "text-green-600";

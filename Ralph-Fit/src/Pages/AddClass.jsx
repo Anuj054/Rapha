@@ -3,6 +3,9 @@ import Sidebar from "../Components/SideBar";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+// Get backend URL from environment variable
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const AddClass = () => {
   const [formData, setFormData] = useState({
     trainerName: "",
@@ -22,7 +25,7 @@ const AddClass = () => {
   const fetchClasses = async () => {
     try {
       const response = await fetch(
-        "https://web-ai-gym-project.vercel.app/api/class/getAll"
+        `${BACKEND_URL}/api/class/getAll`
       );
       if (response.ok) {
         const data = await response.json();
@@ -44,13 +47,13 @@ const AddClass = () => {
   const fetchUsersByClassId = async (classId) => {
     try {
       const response = await fetch(
-        `https://web-ai-gym-project.vercel.app/api/class-booking/users/${classId}`
+        `${BACKEND_URL}/api/class-booking/users/${classId}`
       );
       if (response.ok) {
         const data = await response.json();
         setUsers(data.users);
         const userAttendance = data.users.reduce((acc, user) => {
-          acc[user.userId] = user.attendanceStatus || ""; // Assuming 'attendanceStatus' is the field for status
+          acc[user.userId] = user.attendanceStatus || "";
           return acc;
         }, {});
         setAttendance(userAttendance);
@@ -79,7 +82,7 @@ const AddClass = () => {
   const handleAddClass = async () => {
     try {
       const response = await fetch(
-        "https://web-ai-gym-project.vercel.app/api/class/create",
+        `${BACKEND_URL}/api/class/create`,
         {
           method: "POST",
           headers: {
@@ -129,7 +132,7 @@ const AddClass = () => {
       }));
 
       const response = await fetch(
-        `https://web-ai-gym-project.vercel.app/api/class-booking/attendance/${userId}/${selectedClassDetails._id}`,
+        `${BACKEND_URL}/api/class-booking/attendance/${userId}/${selectedClassDetails._id}`,
         {
           method: "PATCH",
           headers: {
