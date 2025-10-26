@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../Components/SideBar";
 import axios from "axios";
 
-// Get backend URL from environment variable
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Attendance = () => {
@@ -13,14 +12,13 @@ const Attendance = () => {
   const [selectedWeek, setSelectedWeek] = useState("1");
   const [attendanceData, setAttendanceData] = useState([]);
   const [weekDates, setWeekDates] = useState([]);
+  const [weekDays, setWeekDays] = useState([]); // Store day names
 
   // Fetch all classes and users
   useEffect(() => {
     const fetchClasses = async () => {
       try {
-        const response = await axios.get(
-          `${BACKEND_URL}/api/class/getAll`
-        );
+        const response = await axios.get(`${BACKEND_URL}/api/class/getAll`);
         setClasses(response.data);
         if (response.data.length > 0) {
           setSelectedClass(response.data[0]._id);
@@ -32,9 +30,7 @@ const Attendance = () => {
 
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(
-          `${BACKEND_URL}/api/users/names-and-ids`
-        );
+        const response = await axios.get(`${BACKEND_URL}/api/users/names-and-ids`);
         const initialAttendance = response.data.map((user) => ({
           userId: user._id,
           userName: user.name,
@@ -51,47 +47,45 @@ const Attendance = () => {
     fetchUsers();
   }, []);
 
-  // Generate Week Dates
+  // Generate Week Dates and Day Names
   useEffect(() => {
     const generateWeekDates = (month, week) => {
       const monthIndex = new Date(`${month} 1, 2024`).getMonth();
       const firstDayOfMonth = new Date(2024, monthIndex, 1);
       const lastDayOfMonth = new Date(2024, monthIndex + 1, 0).getDate();
 
-      const firstDayOfWeek = new Date(
-        firstDayOfMonth.setDate((week - 1) * 7 + 1)
-      );
+      const firstDayOfWeek = new Date(firstDayOfMonth.setDate((week - 1) * 7 + 1));
 
-      const dates = Array(5)
-        .fill(null)
-        .map((_, index) => {
-          const date = new Date(firstDayOfWeek);
-          date.setDate(firstDayOfWeek.getDate() + index);
+      const dates = [];
+      const days = [];
+      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
-          // Check if the date is within the current month
-          if (
-            date.getMonth() === monthIndex &&
-            date.getDate() <= lastDayOfMonth
-          ) {
-            return date.toLocaleDateString("en-US", {
+      for (let i = 0; i < 5; i++) {
+        const date = new Date(firstDayOfWeek);
+        date.setDate(firstDayOfWeek.getDate() + i);
+
+        if (date.getMonth() === monthIndex && date.getDate() <= lastDayOfMonth) {
+          dates.push(
+            date.toLocaleDateString("en-US", {
               day: "numeric",
               month: "short",
-            });
-          }
-          return null;
-        })
-        .filter((date) => date !== null);
+            })
+          );
+          days.push(dayNames[i]);
+        }
+      }
 
-      return dates;
+      return { dates, days };
     };
 
-    const dates = generateWeekDates(selectedMonth, selectedWeek);
+    const { dates, days } = generateWeekDates(selectedMonth, selectedWeek);
     setWeekDates(dates);
+    setWeekDays(days);
   }, [selectedMonth, selectedWeek]);
 
   // Fetch attendance data
   useEffect(() => {
-    if (selectedClass && selectedMonth && selectedWeek) {
+    if (selectedClass && selectedMonth && selectedWeek && weekDays.length > 0) {
       const fetchAttendance = async () => {
         try {
           const url = `${BACKEND_URL}/api/attendance/${selectedClass}/week${selectedWeek}/${selectedMonth}`;
@@ -101,7 +95,7 @@ const Attendance = () => {
             const updatedAttendance = users.map((user) => ({
               userId: user._id,
               userName: user.name,
-              attendance: Array(weekDates.length).fill("Absent"),
+              attendance: Array(weekDays.length).fill("Absent"),
             }));
             setAttendanceData(updatedAttendance);
           } else {
@@ -113,10 +107,10 @@ const Attendance = () => {
               );
 
               const attendance = userAttendance
-                ? weekDates.map(
-                    (date) => userAttendance?.weekAttendance?.[date] || "Absent"
+                ? weekDays.map(
+                    (day) => userAttendance?.weekAttendance?.[day] || "Absent"
                   )
-                : Array(weekDates.length).fill("Absent");
+                : Array(weekDays.length).fill("Absent");
 
               return {
                 userId: user._id,
@@ -134,7 +128,7 @@ const Attendance = () => {
 
       fetchAttendance();
     }
-  }, [selectedClass, selectedMonth, selectedWeek, weekDates]);
+  }, [selectedClass, selectedMonth, selectedWeek, weekDays, users]);
 
   const handleClassChange = (e) => setSelectedClass(e.target.value);
   const handleMonthChange = (e) => setSelectedMonth(e.target.value);
@@ -145,25 +139,42 @@ const Attendance = () => {
     updatedAttendance[userIndex].attendance[dayIndex] = value;
     setAttendanceData(updatedAttendance);
 
+    // Use day name (Mon, Tue, etc.) instead of date
+    const dayName = weekDays[dayIndex];
+
     const attendancePayload = {
       userId: updatedAttendance[userIndex].userId,
       classId: selectedClass,
       attendanceData: {
         [selectedMonth]: {
           [`week${selectedWeek}`]: {
-            [weekDates[dayIndex]]: value || "Absent",
+            [dayName]: value || "Absent", // Changed from weekDates[dayIndex] to dayName
           },
         },
       },
     };
 
+    console.log("Sending attendance payload:", JSON.stringify(attendancePayload, null, 2));
+
     try {
-      await axios.post(
+      const response = await axios.post(
         `${BACKEND_URL}/api/attendance/markAttendance`,
-        attendancePayload
+        attendancePayload,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
       );
+      console.log("Attendance marked successfully:", response.data);
     } catch (error) {
-      console.error("Error marking attendance:", error.message);
+      console.error("Error marking attendance:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+        payload: attendancePayload,
+      });
+      alert(`Failed to mark attendance: ${error.response?.data?.message || error.message}`);
     }
   };
 
